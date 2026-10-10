@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>孙宇萱 · 个人主页</title>
+<style>
+  :root {
+    --primary: #a4403a;        /* 安克拉红 */
+    --primary-deep: #7c2d2a;
+    --primary-soft: #f6e9e7;
+    --bg: #fefbfb;
+    --card: #ffffff;
+    --text: #33302e;
+    --text-2: #7a736f;
+    --line: #efe5e2;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    color: var(--text);
+    background-color: var(--bg);
+    /* 白底 + 稀疏安克拉红小花与细点，呼应背景参考图 */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cg fill='%23F9C7C7'%3E%3Cg opacity='0.5'%3E%3Ccircle cx='60' cy='60' r='10'/%3E%3Ccircle cx='82' cy='74' r='10'/%3E%3Ccircle cx='74' cy='98' r='10'/%3E%3Ccircle cx='46' cy='98' r='10'/%3E%3Ccircle cx='38' cy='74' r='10'/%3E%3C/g%3E%3Cg opacity='0.45'%3E%3Ccircle cx='420' cy='150' r='8'/%3E%3Ccircle cx='438' cy='162' r='8'/%3E%3Ccircle cx='432' cy='181' r='8'/%3E%3Ccircle cx='410' cy='181' r='8'/%3E%3Ccircle cx='404' cy='162' r='8'/%3E%3C/g%3E%3Cg opacity='0.45'%3E%3Ccircle cx='200' cy='360' r='9'/%3E%3Ccircle cx='220' cy='373' r='9'/%3E%3Ccircle cx='213' cy='394' r='9'/%3E%3Ccircle cx='188' cy='394' r='9'/%3E%3Ccircle cx='181' cy='373' r='9'/%3E%3C/g%3E%3Cg opacity='0.5'%3E%3Ccircle cx='470' cy='440' r='7'/%3E%3Ccircle cx='484' cy='450' r='7'/%3E%3Ccircle cx='479' cy='465' r='7'/%3E%3Ccircle cx='461' cy='465' r='7'/%3E%3Ccircle cx='456' cy='450' r='7'/%3E%3C/g%3E%3Ccircle cx='160' cy='190' r='4' opacity='0.55'/%3E%3Ccircle cx='330' cy='70' r='3' opacity='0.55'/%3E%3Ccircle cx='500' cy='280' r='4' opacity='0.55'/%3E%3Ccircle cx='90' cy='300' r='3' opacity='0.55'/%3E%3Ccircle cx='260' cy='480' r='4' opacity='0.55'/%3E%3Ccircle cx='390' cy='330' r='3' opacity='0.55'/%3E%3C/g%3E%3C/svg%3E");
+    line-height: 1.7;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 20px 64px; }
+
+  /* ===== 头部 ===== */
+  .hero {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(124, 45, 42, 0.05);
+  }
+  .avatar {
+    width: 108px; height: 108px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    outline: 2px solid var(--primary);
+    flex-shrink: 0;
+  }
+  .hero h1 { font-size: 26px; letter-spacing: 1px; }
+  .hero h1 .tag {
+    display: inline-block; vertical-align: 4px; margin-left: 10px;
+    font-size: 12px; font-weight: normal; color: var(--primary);
+    background: var(--primary-soft); padding: 2px 10px; border-radius: 999px;
+  }
+  .hero .intro { font-size: 13px; color: var(--text-2); margin: 6px 0 14px; }
+  .contact { display: flex; flex-wrap: wrap; gap: 10px; }
+  .contact a, .contact span {
+    font-size: 13px; text-decoration: none; color: var(--text);
+    border: 1px solid var(--line); background: var(--bg);
+    padding: 5px 12px; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: border-color .2s, color .2s;
+  }
+  .contact a:hover { border-color: var(--primary); color: var(--primary); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+
+  /* ===== 信息区 ===== */
+  .section-title {
+    margin: 40px 0 16px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 17px; color: var(--primary-deep);
+  }
+  .section-title::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
+  /* ===== 黑胶唱片播放器 ===== */
+  .vinyl-player { position: relative; width: 150px; height: 150px; margin-left: auto; cursor: pointer; flex-shrink: 0; }
+  .vinyl-disc {
+    position: absolute; inset: 8px; border-radius: 50%;
+    background:
+      radial-gradient(circle, #d8c9b8 0 3.5%, #0e0e0e 4% 4.8%, transparent 5%),
+      repeating-radial-gradient(circle, #191919 0 3px, #101010 3px 6px);
+    box-shadow: inset 0 0 0 1px #000, 0 5px 16px rgba(0,0,0,.28);
+    display: flex; align-items: center; justify-content: center;
+    animation: vinyl-spin 4s linear infinite;
+    animation-play-state: paused;
+  }
+  .vinyl-label {
+    width: 34%; height: 34%; border-radius: 50%; border: 3px solid #0d0d0d;
+    background: radial-gradient(circle, var(--primary-soft) 0 52%, var(--primary) 53% 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 13px; user-select: none;
+  }
+  .vinyl-player.playing .vinyl-disc { animation-play-state: running; }
+  @keyframes vinyl-spin { to { transform: rotate(360deg); } }
+  .vinyl-arm {
+    position: absolute; top: -2px; right: 8px; width: 8px; height: 72px;
+    transform-origin: 50% 12px; transform: rotate(-30deg);
+    transition: transform .6s ease; z-index: 2;
+  }
+  .vinyl-arm::before {  /* 轴点 */
+    content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 16px; height: 16px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #f4efe8, #b9b3aa 70%, #8f887e);
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  }
+  .vinyl-arm::after {  /* 唱臂杆 */
+    content: ""; position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+    width: 5px; height: 54px; border-radius: 3px;
+    background: linear-gradient(#cfc9c0, #a8a29a);
+  }
+  .vinyl-player.playing .vinyl-arm { transform: rotate(16deg); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .edu-card, .flip-row, .proj-card, .guestbook { grid-column: 1 / -1; }
+  .card.edu-card, .card.guestbook { border-color: #FADADA; }
+  .interest-card, .doing-card { grid-column: 1; }  /* 左列各占一行，右侧留空 */
+  /* ===== 相册展示区（右侧，跨两行） ===== */
+  .card.album-card { grid-column: 2; grid-row: 1 / 3; padding: 5px; border-radius: 0; overflow: hidden; position: relative; border-color: #FADADA; box-shadow: 3px 3px 0 #ecc9c6, 0 12px 22px rgba(0,0,0,.14); }
+  .album-card img {
+    position: absolute; inset: 5px;
+    width: calc(100% - 10px); height: calc(100% - 10px);
+    object-fit: cover; display: block; border-radius: 0;
+    transition: opacity .5s ease;
+  }
+  /* ===== 相册大图查看层 ===== */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 120;
+    background: rgba(40, 24, 22, .85);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lightbox[hidden] { display: none; }
+  .lightbox img {
+    max-width: min(86vw, 1000px); max-height: 82vh;
+    border: 8px solid #fff; background: #fff; display: block;
+  }
+  .lightbox button {
+    width: 46px; height: 46px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,.9); color: #a4625c; font-size: 26px; line-height: 1;
+    transition: background .2s;
+  }
+  .lightbox button:hover { background: #fff; }
+  .lb-close { position: absolute; top: 16px; right: 22px; }
+  .lb-prev { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); }
+  .lb-next { position: absolute; right: 22px; top: 50%; transform: translateY(-50%); }
+  .lb-count { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,.85); font-size: 13px; }
+  /* ===== 留言板 ===== */
+  .gb-tip { font-size: 14px; color: var(--text-2); margin-bottom: 10px; }
+  .gb-form { display: flex; flex-direction: column; gap: 8px; max-width: 520px; }
+  .gb-form input, .gb-form textarea {
+    font-family: inherit; font-size: 14px; color: var(--text);
+    border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px;
+    background: #fff; resize: vertical; outline: none;
+  }
+  .gb-form input:focus, .gb-form textarea:focus { border-color: var(--primary); }
+  .gb-form button {
+    align-self: flex-end; cursor: pointer; font-family: inherit; font-size: 14px;
+    color: #fff; background: var(--primary); border: none; border-radius: 999px;
+    padding: 7px 20px; transition: background .2s;
+  }
+  .gb-form button:hover { background: var(--primary-deep); }
+  .gb-list { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .gb-item { background: #FADADA; border-radius: 12px; padding: 10px 14px; }
+  .gb-meta { font-size: 12px; color: #8a6f6d; margin-bottom: 4px; }
+  .gb-text { font-size: 14px; color: var(--text); white-space: pre-wrap; word-break: break-word; }
+  .gb-empty { font-size: 13px; color: #b09a98; }
+  .gb-admin-tip { font-size: 12px; color: var(--primary); }
+  .gb-del {
+    margin-left: 8px; font-size: 12px; color: #a97f7c; background: none;
+    border: none; cursor: pointer; padding: 0 2px; font-family: inherit;
+  }
+  .gb-del:hover { color: var(--primary-deep); text-decoration: underline; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px 20px;
+  }
+  .card h3 { font-size: 16px; color: var(--primary); margin-bottom: 8px; }
+  .card p { font-size: 14px; color: var(--text-2); }
+  .card ul { list-style: none; }
+  .card li { font-size: 14px; color: var(--text-2); padding-left: 16px; position: relative; }
+  .card li::before { content: ""; position: absolute; left: 0; top: 9px; width: 4px; height: 4px; border-radius: 50%; background: var(--primary); }
+  .card li strong { color: var(--text); }
+  .card li.kv { display: flex; }
+  .card li.kv span { flex: 1; }
+  .edu-card > ul > li { margin-bottom: 6px; }
+  .course-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; margin-top: 6px; }
+  .course-cols ul { margin: 0; padding: 0; }
+  .course-cols li::before { width: 10px; height: 2px; border-radius: 1px; background: #F9C7C7; top: 11px; }
+  .edu-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .edu-head strong { font-size: 15px; color: var(--text); }
+  /* ===== 项目经历（折叠列表） ===== */
+  .proj-head {
+    width: 100%; display: flex; align-items: center; gap: 10px;
+    background: none; border: none; padding: 6px 0 6px 16px; cursor: pointer;
+    text-align: left; font-family: inherit; position: relative;
+  }
+  .proj-head::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: var(--primary); }
+  .proj-title { flex: 1; font-size: 14px; font-weight: 600; color: var(--text); }
+  .proj-date { font-size: 13px; font-weight: 600; color: var(--text-2); white-space: nowrap; }
+  .proj-arrow { font-size: 16px; color: var(--primary); transition: transform .3s; }
+  .proj.open .proj-arrow { transform: rotate(180deg); }
+  .proj-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .proj.open .proj-body { grid-template-rows: 1fr; }
+  .proj-body-in { overflow: hidden; }
+  .proj-body p { margin: 0 0 6px; padding-left: 16px; }
+  .proj-body p:last-child { margin-bottom: 2px; }
+  /* ===== 特质翻转卡片 ===== */
+  .flip-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .flip-card { perspective: 1000px; aspect-ratio: 1; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,.08); }
+  .flip-inner { position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d; transition: transform .6s; }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 4px 20px rgba(124, 45, 42, 0.05);
+  }
+  .flip-back { transform: rotateY(180deg); padding: 18px; display: block; }
+  .flip-back p { margin: 0 -10px 0 0; padding-right: 10px; height: 100%; overflow-y: auto; font-size: 14px; color: var(--text-2); line-height: 1.8; text-indent: 2em;
+    scrollbar-width: thin; scrollbar-color: #F9C7C7 transparent; }
+  /* 务实卡片正面（花卉插画样式） */
+  .flip-front.fancy { display: block; background: #ea8079; border: none; }
+  .fancy-deco { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .fancy-panel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 64%; height: 58%; background: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10); }
+  .flip-front .fancy-word { font-size: 26px; font-weight: 700; color: #3f3f3f; letter-spacing: 6px; text-indent: 6px; }
+  .fancy-line { width: 72%; height: 2px; background: #3f3f3f; }
+  /* 善学卡片正面（白底花卉样式） */
+  .flip-front.learn { display: block; background: #F7E39A; }
+  .learn-deco { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .learn-circle { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 78%; aspect-ratio: 1; border-radius: 50%; background: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+  .learn-word { display: block; }
+  .flip-front .learn-word { font-size: 26px; font-weight: 700; color: #3f3f3f; letter-spacing: 6px; text-indent: 6px; }
+  .learn-line { display: block; width: 59%; height: 2px; background: #3f3f3f; }
+  /* 协作卡片正面（浅绿横带样式） */
+  .flip-front.coop { display: block; background: #EEFDD6; }
+  .coop-band { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+    height: 48%; background: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0px; }
+  .coop-word { display: block; }
+  .flip-front .coop-word { font-size: 26px; font-weight: 700; color: #3f3f3f; letter-spacing: 6px; text-indent: 6px; }
+  .coop-line { display: block; width: 46%; height: 2px; background: #3f3f3f; }
+  .flip-front .flip-en { font-family: "Times New Roman", "Times Roman", Times, serif; font-size: 13px; font-weight: 400; color: #3f3f3f; letter-spacing: 0; text-indent: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: 13px; color: var(--primary-deep);
+    background: #FADADA; border-radius: 999px; padding: 4px 12px;
+  }
+
+  /* ===== 聊天区 ===== */
+  .chat {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 4px 20px rgba(124, 45, 42, 0.05);
+  }
+  .chat-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 20px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, var(--primary-soft), transparent);
+    cursor: grab; touch-action: none; user-select: none;
+  }
+  .chat-head:active { cursor: grabbing; }
+  .chat-head .avatar-mini {
+    display: block; width: 34px; height: 34px; border-radius: 50%;
+    flex-shrink: 0;
+    background: radial-gradient(circle at 50% 40%, #b9544e 0%, var(--primary) 55%, var(--primary-deep) 100%);
+    box-shadow: 0 0 8px 2px rgba(164, 64, 58, .3);
+  }
+  .chat-head .avatar-mini svg { width: 100%; height: 100%; display: block; }
+  .chat-head b { font-size: 14px; }
+  .chat-head .status { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+  .status i { width: 8px; height: 8px; border-radius: 50%; background: #4caf7d; display: inline-block; }
+  .chat-body { height: 320px; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; background: var(--bg); }
+  .msg { max-width: 78%; padding: 10px 14px; border-radius: 12px; font-size: 14px; animation: fadein .25s ease; white-space: pre-line; }
+  .msg.bot { align-self: flex-start; background: #fff; border: 1px solid var(--line); border-top-left-radius: 4px; }
+  .msg.user { align-self: flex-end; background: var(--primary); color: #fff; border-top-right-radius: 4px; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .quick { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 18px 0; }
+  .quick button {
+    font-size: 13px; color: var(--primary-deep); background: #FADADA;
+    border: 1px solid transparent; border-radius: 999px; padding: 5px 14px; cursor: pointer;
+    transition: border-color .2s;
+  }
+  .quick button:hover { border-color: var(--primary); }
+  .chat-input { display: flex; gap: 10px; padding: 14px 18px 18px; }
+  .chat-input input {
+    flex: 1; border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 14px; font-size: 14px; outline: none; background: var(--bg);
+    transition: border-color .2s;
+  }
+  .chat-input input:focus { border-color: var(--primary); }
+  .chat-input button {
+    background: var(--primary); color: #fff; border: none; border-radius: 10px;
+    padding: 10px 22px; font-size: 14px; cursor: pointer; transition: background .2s;
+  }
+  .chat-input button:hover { background: var(--primary-deep); }
+
+  /* ===== 悬浮分身 ===== */
+  #spriteBall {
+    position: fixed; z-index: 999;
+    width: 58px; height: 58px; border-radius: 50%;
+    cursor: grab; touch-action: none; user-select: none;
+    background: radial-gradient(circle at 50% 40%, #b9544e 0%, var(--primary) 55%, var(--primary-deep) 100%);
+    box-shadow:
+      0 0 12px 4px rgba(164, 64, 58, .35),
+      0 0 32px 10px rgba(164, 64, 58, .16),
+      0 6px 18px rgba(124, 45, 42, .25);
+    transition: transform .2s;
+  }
+  #spriteBall:hover { transform: scale(1.08); }
+  #spriteBall:active { cursor: grabbing; }
+  #spriteBall svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+  #spriteBall .eyes-g { transition: transform .15s ease-out; }
+  .eye { transform-box: fill-box; transform-origin: center; animation: blink 8s infinite; }
+  @keyframes blink {
+    0%, 4%, 7.5%, 11%, 14.5%, 100% { transform: scaleY(1); }
+    5.75%, 12.5% { transform: scaleY(0.08); }
+  }
+  #spriteChat { display: none; position: fixed; z-index: 998; width: min(360px, calc(100vw - 24px)); }
+  #spriteChat .chat-body { height: min(320px, calc(100vh - 240px)); min-height: 140px; }
+  #spriteChat.open { display: block; animation: fadein .25s ease; }
+  .chat-head { position: relative; }
+  .chat-close {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    border: none; background: transparent; color: var(--text-2);
+    font-size: 22px; line-height: 1; cursor: pointer;
+  }
+  .chat-close:hover { color: var(--primary); }
+
+  /* ===== 悬浮球气泡提示 ===== */
+  #spriteTip {
+    position: fixed; z-index: 998;
+    max-width: 230px; padding: 10px 14px;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 12px;
+    font-size: 13px; color: var(--text);
+    box-shadow: 0 4px 16px rgba(124, 45, 42, .12);
+    opacity: 0; pointer-events: none;
+  }
+  #spriteTip.show { animation: tipLife 3.8s ease forwards; }
+  /* 朝向球的那个角做成小圆角，呼应聊天气泡 */
+  #spriteTip.pos-tl { border-bottom-right-radius: 4px; }
+  #spriteTip.pos-tr { border-bottom-left-radius: 4px; }
+  #spriteTip.pos-bl { border-top-right-radius: 4px; }
+  #spriteTip.pos-br { border-top-left-radius: 4px; }
+  @keyframes tipLife {
+    0% { opacity: 0; transform: translateY(6px); }
+    8% { opacity: 1; transform: none; }
+    84% { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(-4px); }
+  }
+
+  footer { text-align: center; color: var(--text-2); font-size: 12px; margin-top: 48px; }
+
+  /* ===== 手机适配 ===== */
+  @media (max-width: 640px) {
+    .wrap { padding: 24px 14px 40px; }
+    .hero { flex-direction: column; text-align: center; padding: 28px 20px; }
+    .contact { justify-content: center; }
+    .grid { grid-template-columns: 1fr; }
+    .vinyl-player { margin: 4px auto 0; }
+    .album-card { grid-column: auto; grid-row: auto; aspect-ratio: 1; }
+    .flip-row { grid-template-columns: 1fr; }
+    .flip-card { aspect-ratio: auto; min-height: 150px; }
+    .chat-body { height: 280px; }
+    .msg { max-width: 88%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 头部：头像 + 基本信息 -->
+  <header class="hero">
+    <img class="avatar" src="Image.jpg" alt="孙宇萱的头像" />
+    <div>
+      <h1>孙宇萱</h1>
+      <p class="intro">一个在为未来做准备的大学生。</p>
+      <div class="contact">
+        <a href="tel:18616926687">联系电话：18616926687</a>
+        <a href="mailto:3874236946@qq.com">邮箱：3874236946@qq.com</a>
+      </div>
+    </div>
+    <div class="vinyl-player" id="vinylPlayer" role="button" tabindex="0" aria-label="黑胶唱片播放器：单击播放或停止">
+      <div class="vinyl-disc"><span class="vinyl-label">♪</span></div>
+      <div class="vinyl-arm"></div>
+    </div>
+    <audio id="vinylAudio" src="music.mp3" preload="none"></audio>
+  </header>
+
+  <!-- 个人信息展示区 -->
+  <div class="grid">
+    <div class="card interest-card">
+      <h3>兴趣</h3>
+      <div class="chips">
+        <span class="chip">阅读</span><span class="chip">编程</span>
+        <span class="chip">音乐</span><span class="chip">漫画</span><span class="chip">旅行</span>
+      </div>
+    </div>
+    <div class="card doing-card">
+      <h3>现在在做</h3>
+      <ul class="plain-list">
+        <li>完成大学课业，努力学习</li>
+        <li>尝试各种活动丰富自己的经历</li>
+        <li>学着缓解对未来的压力</li>
+        <li>搭建这个个人主页</li>
+      </ul>
+    </div>
+    <div class="card album-card" aria-label="相册展示">
+      <img id="albumImg" src="Photo/1.jpg" alt="相册照片">
+    </div>
+    <div class="card edu-card">
+      <h3>教育背景</h3>
+      <div class="edu-head">
+        <strong>上海师范大学</strong>
+        <strong>计算机科学与技术 / 本科</strong>
+      </div>
+      <ul>
+        <li class="kv"><strong>成绩表现：</strong><span>GPA 3.48/4.0（专业前 20%，51 人）；<br>2024-2025 年校级专业奖学金三等奖。</span></li>
+        <li>
+          <strong>核心课程：</strong>
+          <div class="course-cols">
+            <ul>
+              <li>Python 与数据分析（99 分）</li>
+              <li>编译原理（97.2 分）</li>
+              <li>电路分析基础（97 分）</li>
+              <li>数据库系统概论（96 分）</li>
+              <li>数字逻辑（94 分）</li>
+              <li>数据结构编程实践（92 分）</li>
+            </ul>
+            <ul>
+              <li>JAVA 面向对象程序设计（90 分）</li>
+              <li>C 语言程序设计</li>
+              <li>算法与数据结构</li>
+              <li>网络与通信</li>
+              <li>计算机组成原理</li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="flip-row">
+      <div class="flip-card" tabindex="0" role="button" aria-pressed="false" aria-label="务实：单击查看说明">
+        <div class="flip-inner">
+          <div class="flip-front fancy">
+            <svg class="fancy-deco" viewBox="0 0 300 300" aria-hidden="true">
+              <g fill="none" stroke="#fff" stroke-width="2.5">
+                <path d="M97,-10 C84,30 104,46 80,63 C64,74 40,66 26,80 C18,88 2,92 -10,98"/>
+                <path d="M140,310 C175,285 145,258 195,252 C245,246 235,285 275,278 C295,274 300,262 310,255"/>
+              </g>
+            </svg>
+            <div class="fancy-panel">
+              <span class="fancy-word">务实</span>
+              <i class="fancy-line"></i>
+              <span class="flip-en">Pragmatic</span>
+            </div>
+          </div>
+          <div class="flip-back"><p>擅长把现实业务需求拆解为程序逻辑，但不局限理论概念或单纯写代码，能够结合真实业务痛点做开发，注重原型落地、异常处理，追求实际使用效果，而非只完成纸上设计。</p></div>
+        </div>
+      </div>
+      <div class="flip-card" tabindex="0" role="button" aria-pressed="false" aria-label="善学：单击查看说明">
+        <div class="flip-inner">
+          <div class="flip-front learn">
+            <svg class="learn-deco" viewBox="0 0 300 300" aria-hidden="true">
+              <g fill="none" stroke="#fff" stroke-width="2.5">
+                <path d="M-10,92 C6,96 10,100 14,106 C30,128 24,148 50,185 C66,205 46,235 62,258 C70,272 66,290 72,310"/>
+                <path d="M310,60 C270,50 285,20 250,12 C240,9 232,4 228,-8"/>
+              </g>
+            </svg>
+            <div class="learn-circle">
+              <span class="learn-word">善学</span>
+              <i class="learn-line"></i>
+              <span class="flip-en">Quick-learning</span>
+            </div>
+          </div>
+          <div class="flip-back"><p>涉猎多类技术，从传统 C 语言编程和 SQL 数据库建模，到 Python 数据分析、还接触过 LLM/RAG/RPA 等 AI 新技术，能够主动调研学习陌生技术完成项目任务。</p></div>
+        </div>
+      </div>
+      <div class="flip-card" tabindex="0" role="button" aria-pressed="false" aria-label="协作：单击查看说明">
+        <div class="flip-inner">
+          <div class="flip-front coop">
+            <svg class="learn-deco" viewBox="0 0 300 300" aria-hidden="true">
+              <g fill="none" stroke="#fff" stroke-width="2.5">
+                <path d="M-10,60 C40,92 22,18 82,40 S150,15 205,-10"/>
+                <path d="M310,238 C250,205 268,282 205,262 S140,292 118,312"/>
+              </g>
+            </svg>
+            <div class="coop-band">
+              <span class="coop-word">协作</span>
+              <i class="coop-line"></i>
+              <span class="flip-en">Cooperative</span>
+            </div>
+          </div>
+          <div class="flip-back"><p>参与过多次多人团队项目，善于听从指挥承担分配的模块工作，也可积极配合组员完成需求调研、开发、测试全流程，具备较强的团队配合意识。</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="card proj-card">
+      <h3>项目经历</h3>
+      <div class="proj open">
+        <button class="proj-head" type="button" aria-expanded="true">
+          <span class="proj-title">农业补贴政策智能匹配与申报系统（大创项目）</span>
+          <span class="proj-date">2026-2027</span>
+          <span class="proj-arrow" aria-hidden="true">▾</span>
+        </button>
+        <div class="proj-body">
+          <div class="proj-body-in">
+            <p><strong>项目简介：</strong>5 人大学生创新训练项目，构建面向农村留守老人的一站式政策智能代办平台。</p>
+            <p><strong>本人职责：</strong>作为项目主要成员负责搭建后端原型；构建农业补贴政策知识库与知识图谱，结合 LLM 实现政策智能问答；通过 RPA 实现主动预警机制，实现政策主动匹配推送以及表单自动化填报。</p>
+            <p><strong>项目意义：</strong>实现由“人找政策”向“政策找人”转变，降低农村留守老人的补贴申报门槛，减轻基层政务人员工作负担，为惠农数字化服务提供可行原型方案，具备现实社会应用价值。</p>
+          </div>
+        </div>
+      </div>
+      <div class="proj">
+        <button class="proj-head" type="button" aria-expanded="false">
+          <span class="proj-title">公民身份证信息管理系统</span>
+          <span class="proj-date">2025.03-2025.05</span>
+          <span class="proj-arrow" aria-hidden="true">▾</span>
+        </button>
+        <div class="proj-body">
+          <div class="proj-body-in">
+            <p><strong>项目简介：</strong>本项目基于本地文本文件存储公民基础信息，开发控制台身份证信息管理程序，可批量处理最多 100 条人员记录。</p>
+            <p><strong>本人职责：</strong>作为项目负责人采用 C 语言完成整体代码开发，搭建交互式控制台菜单，实现身份证校验、个人信息解析、年龄排序、重名查询、性别筛选、同地区人数统计、文本文件读写与结果导出等全套业务功能。</p>
+            <p><strong>项目意义：</strong>该系统可批量完成身份证数据自动校验、信息提取与分类统计，替代人工核验整理，适用于小规模人员信息台账的快速管理。</p>
+          </div>
+        </div>
+      </div>
+      <div class="proj">
+        <button class="proj-head" type="button" aria-expanded="false">
+          <span class="proj-title">等级考试预报名系统</span>
+          <span class="proj-date">2025.05-2025.06</span>
+          <span class="proj-arrow" aria-hidden="true">▾</span>
+        </button>
+        <div class="proj-body">
+          <div class="proj-body-in">
+            <p><strong>项目简介：</strong>本项目模拟上海市高中等级考预报名信息管理场景，开发控制台报名管理程序，可批量处理最多 200 条学生报名记录。</p>
+            <p><strong>本人职责：</strong>作为项目负责人采用 C 语言完成整体代码开发，搭建交互式控制台菜单，实现文件数据读取、报名科目合法性校验、学号排序、全部报名信息展示、错误报名信息统计、分科目报名情况查询、学生报名科目修改、修改后数据文本保存导出等全套业务功能。</p>
+            <p><strong>项目意义：</strong>该系统能够批量完成学生报名数据自动校验、分类统计与信息修改归档，替代人工核对整理报名信息，实现小规模等级考预报名数据的高效管理。</p>
+          </div>
+        </div>
+      </div>
+      <div class="proj">
+        <button class="proj-head" type="button" aria-expanded="false">
+          <span class="proj-title">个人健康数据统计分析工具</span>
+          <span class="proj-date">2026.04-2026.06</span>
+          <span class="proj-arrow" aria-hidden="true">▾</span>
+        </button>
+        <div class="proj-body">
+          <div class="proj-body-in">
+            <p><strong>项目简介：</strong>个人独立开发的本地健康数据分析工具，对睡眠、运动、体重等零散健康记录进行批量处理，实现数据统计分析与可视化输出。</p>
+            <p><strong>本人职责：</strong>独立使用 Python 读取 CSV 原始数据，完成脏数据过滤、缺失值清洗；实现多维度健康指标统计计算，使用绘图库生成趋势图表；支持时间范围筛选、异常记录筛查与统计报告导出，本地完成数据持久化。</p>
+            <p><strong>项目意义：</strong>该工具可实现健康数据自动化整理分析，直观展示身体指标变化趋势，定位异常记录，为个人健康复盘提供量化参考。</p>
+          </div>
+        </div>
+      </div>
+      <div class="proj">
+        <button class="proj-head" type="button" aria-expanded="false">
+          <span class="proj-title">酒店预订系统</span>
+          <span class="proj-date">2026.04-2026.05</span>
+          <span class="proj-arrow" aria-hidden="true">▾</span>
+        </button>
+        <div class="proj-body">
+          <div class="proj-body-in">
+            <p><strong>项目简介：</strong>团队 6 人实践项目，模拟连锁酒店预订业务，实现多角色下酒店全业务流程的数据管理原型。</p>
+            <p><strong>本人职责：</strong>作为项目负责人组织业务流程梳理，使用 IDEFX 完成实体关系建模，梳理核心实体与外键关联关系；编写 SQL 语句完成建表、约束定义、增删改查与多表关联统计；结合 AI 大模型完成多角色 UI 界面原型设计，支撑酒店完整业务逻辑。</p>
+            <p><strong>项目意义：</strong>该项目完成连锁酒店完整业务的数据模型与交互原型落地，可作为酒店预订产品前期设计方案，为后续系统开发提供依据，能够支撑多门店、多会员资产模式下酒店预订全流程业务的数据管理。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card guestbook">
+      <h3 id="gbTitle" style="cursor:pointer">留言板</h3>
+      <p class="gb-tip">路过的话，留句话给我吧～<span id="gbAdminTip" class="gb-admin-tip" style="display:none">（管理员模式：可删除任意留言）</span></p>
+      <div class="gb-form">
+        <input id="gbName" type="text" maxlength="20" placeholder="你的称呼（可不填）">
+        <textarea id="gbText" rows="3" maxlength="200" placeholder="想对我说的话…（200 字以内）"></textarea>
+        <button id="gbSubmit" type="button">提交留言</button>
+      </div>
+      <div id="gbList" class="gb-list"></div>
+    </div>
+  </div>
+
+  <!-- 数字分身：悬浮球 + 悬浮聊天窗（在页面底部） -->
+
+  <footer>© 2026 孙宇萱 · 用一点点的技术，认真生活</footer>
+</div>
+
+<!-- 悬浮分身球：拖拽移动，单击打开聊天 -->
+<div id="spriteBall" role="button" tabindex="0" aria-label="数字分身：单击打开聊天，拖动换位置" title="拖动换位置 · 单击聊天">
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <g class="eyes-g">
+      <rect class="eye" x="33" y="35" width="9" height="20" rx="4.5" fill="#fff"></rect>
+      <rect class="eye" x="58" y="35" width="9" height="20" rx="4.5" fill="#fff"></rect>
+    </g>
+  </svg>
+</div>
+
+<!-- 悬浮球气泡提示 -->
+<div id="spriteTip" role="status"></div>
+
+<!-- 悬浮聊天窗 -->
+<div id="spriteChat" class="chat">
+  <div class="chat-head">
+    <span class="avatar-mini" aria-hidden="true">
+      <svg viewBox="0 0 100 100">
+        <rect class="eye" x="33" y="35" width="9" height="20" rx="4.5" fill="#fff"></rect>
+        <rect class="eye" x="58" y="35" width="9" height="20" rx="4.5" fill="#fff"></rect>
+      </svg>
+    </span>
+    <div>
+      <b>孙宇萱的数字分身</b>
+      <div class="status"><i></i>在线</div>
+    </div>
+    <button id="chatClose" class="chat-close" aria-label="关闭">×</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="quick">
+    <button onclick="ask('你现在在做什么？')">你现在在做什么？</button>
+    <button onclick="ask('你擅长什么？')">你擅长什么？</button>
+    <button onclick="ask('怎么联系你？')">怎么联系你？</button>
+  </div>
+  <div class="chat-input">
+    <input id="input" type="text" placeholder="输入问题，回车发送…" onkeydown="if(event.key==='Enter')send()" />
+    <button onclick="send()">发送</button>
+  </div>
+</div>
+
+  <!-- 相册大图查看层 -->
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="lb-close" type="button" aria-label="关闭">×</button>
+    <button class="lb-prev" type="button" aria-label="上一张">‹</button>
+    <img id="lbImg" src="Photo/1.jpg" alt="相册大图">
+    <button class="lb-next" type="button" aria-label="下一张">›</button>
+    <div id="lbCount" class="lb-count"></div>
+  </div>
+
+<script>
+  const body = document.getElementById("chatBody");
+  const input = document.getElementById("input");
+
+  const KB = [
+    { keys: ["做什么", "在干", "最近", "忙"], answer:
+      "我现在主要在完成大学课业，同时尝试参加各类活动丰富经历。最近的小目标：搭好自己的个人主页，也在学着缓解对未来的压力～" },
+    { keys: ["擅长", "会什么", "技能", "方向", "关心"], answer:
+      "我擅长把复杂的任务拆解成条理清楚的小步骤，也喜欢学习新知识。可以点点我的关键词卡片，相信你能在那找到更详细的答案哦。" },
+    { keys: ["联系", "电话", "邮箱", "微信", "找到"], answer:
+      "可以通过电话 18616926687 联系我，或者发邮件到 3874236946@qq.com，我都会看的！" },
+    { keys: ["你是谁", "身份", "学校", "专业", "年级"], answer:
+      "我是孙宇萱，上海师范大学 24 级计算机科学与技术专业的本科生，一个在为未来做准备的大学生。" },
+    { keys: ["兴趣", "爱好", "喜欢做", "娱乐"], answer:
+      "平时喜欢看书、听音乐、看漫画，也喜欢出门旅行，换换心情。" },
+    { keys: ["压力", "焦虑", "未来", "迷茫"], answer:
+      "对未来有压力很正常呀，我也在慢慢学着缓解：把大目标拆成小步骤，一步步做完会安心很多。" },
+  ];
+
+  function addMsg(text, who) {
+    const div = document.createElement("div");
+    div.className = "msg " + who;
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  const GREETINGS = ["你好", "您好", "哈喽", "哈罗", "嗨", "hi", "hello", "在吗", "在么", "早", "午安", "晚安"];
+
+  function reply(q) {
+    const t = q.trim().toLowerCase();
+    /* 纯打招呼：整句就是一句问候，不含其他内容 */
+    const isGreeting = GREETINGS.some(g => t === g || t === g + "！" || t === g + "!" || t === g + "～" || t === g + "~" || t === g + "呀" || t === g + "啊");
+    const hit = KB.find(item => item.keys.some(k => q.includes(k)));
+    const answer = isGreeting ? "你好呀，有什么想跟我说的吗？"
+      : hit ? hit.answer
+      : "嗯，这个问题我还没有合适的答案，相信等我多升级一些就能和你畅谈了！试试其他的问题吧~";
+    addMsg("正在输入…", "bot");
+    setTimeout(() => {
+      body.lastChild.textContent = answer;
+    }, 500);
+  }
+
+  function ask(q) { addMsg(q, "user"); reply(q); }
+  function send() {
+    const q = input.value.trim();
+    if (!q) return;
+    input.value = "";
+    ask(q);
+  }
+
+  // 开场白
+  addMsg("Hello，我是宇萱的数字分身～\n下方有可以直接点击的快捷问题按钮，当然，也可以直接输入你想问的。", "bot");
+
+  /* ===== 悬浮分身：拖拽 + 单击开关 ===== */
+  const ball = document.getElementById("spriteBall");
+  const panel = document.getElementById("spriteChat");
+
+  // 初始位置：右下角
+  function placeBallDefault() {
+    ball.style.left = (window.innerWidth - ball.offsetWidth - 26) + "px";
+    ball.style.top = (window.innerHeight - ball.offsetHeight - 26) + "px";
+  }
+  placeBallDefault();
+
+  // 窗口缩放时把球拉回视口内
+  window.addEventListener("resize", () => {
+    if (ball.style.display === "none") return;
+    const x = Math.min(Math.max(0, ball.offsetLeft), window.innerWidth - ball.offsetWidth);
+    const y = Math.min(Math.max(0, ball.offsetTop), window.innerHeight - ball.offsetHeight);
+    ball.style.left = x + "px";
+    ball.style.top = y + "px";
+  });
+
+  // 区分“拖拽”和“单击”：移动超过 6px 算拖拽
+  let dragging = false, moved = false, sx = 0, sy = 0, ox = 0, oy = 0;
+  ball.addEventListener("pointerdown", (e) => {
+    dragging = true; moved = false;
+    sx = e.clientX; sy = e.clientY;
+    ox = ball.offsetLeft; oy = ball.offsetTop;
+    ball.setPointerCapture(e.pointerId);
+  });
+  ball.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if (!moved && Math.hypot(dx, dy) > 6) { moved = true; tip.classList.remove("show"); }
+    if (!moved) return;
+    const x = Math.min(Math.max(0, ox + dx), window.innerWidth - ball.offsetWidth);
+    const y = Math.min(Math.max(0, oy + dy), window.innerHeight - ball.offsetHeight);
+    ball.style.left = x + "px";
+    ball.style.top = y + "px";
+  });
+  ball.addEventListener("pointerup", () => {
+    dragging = false;
+    if (!moved) openChat();  // 没拖动 = 单击打开
+  });
+
+  // 键盘无障碍：Enter / 空格打开聊天
+  ball.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openChat(); }
+  });
+
+  /* ===== 眼睛跟随鼠标 ===== */
+  const eyesG = document.querySelector("#spriteBall .eyes-g");
+  const LOOK_RANGE = 100;  // 触发距离（px），鼠标进入球周围该范围时眼睛开始看它
+  const LOOK_MAX = 8;      // 眼睛最大偏移量（SVG 单位）
+
+  window.addEventListener("mousemove", (e) => {
+    if (ball.style.display === "none") return;
+    const r = ball.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width / 2);
+    const dy = e.clientY - (r.top + r.height / 2);
+    const dist = Math.hypot(dx, dy);
+    if (dist > LOOK_RANGE) { eyesG.style.transform = ""; return; }
+    const mag = Math.min(dist / 60, 1) * LOOK_MAX;  // 60px 内逐渐加满
+    const ang = Math.atan2(dy, dx);
+    eyesG.style.transform =
+      "translate(" + (Math.cos(ang) * mag).toFixed(2) + "px, " + (Math.sin(ang) * mag).toFixed(2) + "px)";
+  });
+
+  // 鼠标离开页面时眼睛回正
+  document.documentElement.addEventListener("mouseleave", () => { eyesG.style.transform = ""; });
+
+  /* ===== 定时气泡提示 ===== */
+  const tip = document.getElementById("spriteTip");
+  const TIPS = [
+    "Hello，我是宇萱的数字分身～",
+    "点这里可以和我聊天哦~",
+    "想跟我聊聊吗？戳戳我试试~",
+  ];
+  let tipIdx = 0;
+
+  function showTip() {
+    if (ball.style.display === "none") return;  // 聊天窗开着时不弹
+    tip.textContent = TIPS[tipIdx % TIPS.length];
+    tipIdx++;
+    // 气泡定位：水平朝网页中间那侧；垂直默认在上方，上方空间不足时放下方
+    const r = ball.getBoundingClientRect();
+    const onRight = r.left + r.width / 2 > window.innerWidth / 2;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    const above = r.top - th - 20 >= 12;
+    let x = onRight ? r.left - tw - 1 : r.right + 1;
+    let y = above ? r.top - th - 1 : r.bottom + 1;
+    x = Math.min(Math.max(12, x), window.innerWidth - tw - 12);
+    y = Math.min(Math.max(12, y), window.innerHeight - th - 12);
+    tip.classList.remove("show", "pos-tl", "pos-tr", "pos-bl", "pos-br");
+    void tip.offsetWidth;  // 强制回流，让动画可以重新播放
+    tip.classList.add((above ? "pos-t" : "pos-b") + (onRight ? "l" : "r"), "show");
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+  }
+
+  setTimeout(showTip, 3000);      // 页面打开后先来第一条
+  setInterval(showTip, 30000);    // 之后每 30 秒一条，循环播放
+
+  // 打开聊天窗：悬浮球隐藏，聊天窗出现在球原来的位置附近
+  function openChat() {
+    tip.classList.remove("show");
+    const bx = ball.offsetLeft, by = ball.offsetTop, bw = ball.offsetWidth;
+    ball.style.display = "none";
+    panel.classList.add("open");
+    const pw = panel.offsetWidth, ph = panel.offsetHeight;
+    let x = bx + bw / 2 - pw / 2;
+    x = Math.min(Math.max(12, x), window.innerWidth - pw - 12);
+    let y = by - ph - 12;
+    if (y < 12) y = by + bw + 12;
+    y = Math.min(Math.max(12, y), window.innerHeight - ph - 12);
+    panel.style.left = x + "px";
+    panel.style.top = y + "px";
+    input.focus();
+  }
+
+  // 关闭聊天窗：聊天窗隐藏，悬浮球在原位重新出现
+  function closeChat() {
+    panel.classList.remove("open");
+    ball.style.display = "";
+  }
+
+  document.getElementById("chatClose").addEventListener("click", closeChat);
+
+  /* ===== 拖动聊天窗（按住标题栏） ===== */
+  const head = panel.querySelector(".chat-head");
+  let pDragging = false, px0 = 0, py0 = 0, pox = 0, poy = 0;
+  head.addEventListener("pointerdown", (e) => {
+    if (e.target.closest(".chat-close")) return;  // 点 × 不触发拖动
+    pDragging = true;
+    px0 = e.clientX; py0 = e.clientY;
+    pox = panel.offsetLeft; poy = panel.offsetTop;
+    head.setPointerCapture(e.pointerId);
+  });
+  head.addEventListener("pointermove", (e) => {
+    if (!pDragging) return;
+    const x = Math.min(Math.max(0, pox + e.clientX - px0), window.innerWidth - panel.offsetWidth);
+    const y = Math.min(Math.max(0, poy + e.clientY - py0), window.innerHeight - panel.offsetHeight);
+    panel.style.left = x + "px";
+    panel.style.top = y + "px";
+  });
+  head.addEventListener("pointerup", () => { pDragging = false; });
+  head.addEventListener("pointercancel", () => { pDragging = false; });
+
+  /* ===== 项目经历：手风琴折叠（每次只展开一个） ===== */
+  const projHeads = document.querySelectorAll(".proj-head");
+  projHeads.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".proj");
+      const wasOpen = item.classList.contains("open");
+      projHeads.forEach((b) => {
+        b.closest(".proj").classList.remove("open");
+        b.setAttribute("aria-expanded", "false");
+      });
+      if (!wasOpen) {
+        item.classList.add("open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+
+  /* ===== 特质翻转卡片 ===== */
+  document.querySelectorAll(".flip-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const flipped = card.classList.toggle("flipped");
+      card.setAttribute("aria-pressed", flipped ? "true" : "false");
+    });
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.click(); }
+    });
+  });
+  /* ===== 留言板 ===== */
+  const GB_KEY = "yuxuan_guestbook";
+  const GB_MINE_KEY = "yuxuan_guestbook_mine";
+  const GB_ADMIN_PASS = "yuxuan";  /* 站主删除密码，建议改掉 */
+  let gbAdmin = false;
+  const gbList = document.getElementById("gbList");
+  const gbName = document.getElementById("gbName");
+  const gbText = document.getElementById("gbText");
+  const gbSubmit = document.getElementById("gbSubmit");
+  const gbLoad = () => { try { return JSON.parse(localStorage.getItem(GB_KEY)) || []; } catch { return []; } };
+  const gbSave = (arr) => localStorage.setItem(GB_KEY, JSON.stringify(arr));
+  const gbMine = () => { try { return new Set(JSON.parse(localStorage.getItem(GB_MINE_KEY)) || []); } catch { return new Set(); } };
+  const gbSaveMine = (set) => localStorage.setItem(GB_MINE_KEY, JSON.stringify([...set]));
+  function gbRender() {
+    const arr = gbLoad();
+    const mine = gbMine();
+    gbList.innerHTML = "";
+    if (!arr.length) {
+      const empty = document.createElement("p");
+      empty.className = "gb-empty";
+      empty.textContent = "还没有留言，来写下第一条吧～";
+      gbList.appendChild(empty);
+      return;
+    }
+    arr.forEach((m) => {
+      const item = document.createElement("div");
+      item.className = "gb-item";
+      const meta = document.createElement("div");
+      meta.className = "gb-meta";
+      meta.textContent = `${m.name || "匿名访客"} · ${m.time}`;
+      if (gbAdmin || mine.has(m.id)) {  /* 站主可删任意；访客只能删自己在本浏览器发的 */
+        const del = document.createElement("button");
+        del.className = "gb-del";
+        del.type = "button";
+        del.textContent = "删除";
+        del.addEventListener("click", () => {
+          if (!confirm("确定删除这条留言吗？")) return;
+          gbSave(gbLoad().filter((x) => x.id !== m.id));
+          const s = gbMine(); s.delete(m.id); gbSaveMine(s);
+          gbRender();
+        });
+        meta.appendChild(del);
+      }
+      const text = document.createElement("div");
+      text.className = "gb-text";
+      text.textContent = m.text;  /* textContent 防止注入 */
+      item.append(meta, text);
+      gbList.appendChild(item);
+    });
+  }
+  gbSubmit.addEventListener("click", () => {
+    const text = gbText.value.trim();
+    if (!text) { gbText.focus(); return; }
+    const arr = gbLoad();
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    arr.unshift({
+      id,
+      name: gbName.value.trim().slice(0, 20),
+      text: text.slice(0, 200),
+      time: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`
+    });
+    gbSave(arr);
+    const s = gbMine(); s.add(id); gbSaveMine(s);
+    gbText.value = "";
+    gbRender();
+  });
+  gbText.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) gbSubmit.click();
+  });
+  /* 连点三次「留言板」标题 → 输入密码 → 站主模式 */
+  const gbTitle = document.getElementById("gbTitle");
+  let gbClicks = 0, gbClickTimer = null;
+  gbTitle.addEventListener("click", () => {
+    gbClicks++;
+    clearTimeout(gbClickTimer);
+    gbClickTimer = setTimeout(() => { gbClicks = 0; }, 1200);
+    if (gbClicks >= 3) {
+      gbClicks = 0;
+      if (gbAdmin) return;
+      const pass = prompt("请输入管理密码：");
+      if (pass === null) return;
+      if (pass === GB_ADMIN_PASS) {
+        gbAdmin = true;
+        document.getElementById("gbAdminTip").style.display = "";
+        gbRender();
+      } else {
+        alert("密码不对哦～");
+      }
+    }
+  });
+  gbRender();
+  /* ===== 相册轮播（4秒切换，淡入淡出循环） ===== */
+  const ALBUM_PHOTOS = ["Photo/1.jpg", "Photo/2.jpg", "Photo/3.jpg", "Photo/4.jpg", "Photo/5.jpg", "Photo/6.jpg", "Photo/7.jpg", "Photo/8.jpg", "Photo/9.jpg", "Photo/10.jpg", "Photo/11.jpg", "Photo/12.jpg", "Photo/13.jpg", "Photo/14.jpg", "Photo/15.jpg", "Photo/16.jpg", "Photo/17.jpg", "Photo/18.jpg", "Photo/19.jpg", "Photo/20.jpg"];  /* 把你的照片路径加进来，如 "相册/1.jpg" */
+  const albumImg = document.getElementById("albumImg");
+  if (albumImg && ALBUM_PHOTOS.length > 1) {
+    let albumIdx = 0;
+    ALBUM_PHOTOS.forEach((src) => { const p = new Image(); p.src = src; });  /* 预加载 */
+    setInterval(() => {
+      if (lbOpen) return;  /* 大图查看时暂停轮播 */
+      albumImg.style.opacity = "0";
+      setTimeout(() => {
+        albumIdx = (albumIdx + 1) % ALBUM_PHOTOS.length;
+        albumImg.src = ALBUM_PHOTOS[albumIdx];
+        albumImg.style.opacity = "1";
+      }, 500);
+    }, 7000);
+
+    /* ===== 相册大图查看 ===== */
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    const lbCount = document.getElementById("lbCount");
+    let lbOpen = false;
+    const lbShow = (idx) => {
+      albumIdx = ((idx % ALBUM_PHOTOS.length) + ALBUM_PHOTOS.length) % ALBUM_PHOTOS.length;
+      lbImg.src = ALBUM_PHOTOS[albumIdx];
+      lbCount.textContent = `${albumIdx + 1} / ${ALBUM_PHOTOS.length}`;
+    };
+    const lbToggle = (open) => { lbOpen = open; lightbox.hidden = !open; };
+    albumImg.addEventListener("click", () => { lbShow(albumIdx); lbToggle(true); });
+    lightbox.querySelector(".lb-close").addEventListener("click", () => lbToggle(false));
+    lightbox.querySelector(".lb-prev").addEventListener("click", () => lbShow(albumIdx - 1));
+    lightbox.querySelector(".lb-next").addEventListener("click", () => lbShow(albumIdx + 1));
+    lightbox.addEventListener("click", (e) => { if (e.target === lightbox) lbToggle(false); });
+    document.addEventListener("keydown", (e) => {
+      if (!lbOpen) return;
+      if (e.key === "Escape") lbToggle(false);
+      if (e.key === "ArrowLeft") lbShow(albumIdx - 1);
+      if (e.key === "ArrowRight") lbShow(albumIdx + 1);
+    });
+  }
+  /* ===== 黑胶唱片播放器 ===== */
+  const vinylPlayer = document.getElementById("vinylPlayer");
+  const vinylAudio = document.getElementById("vinylAudio");
+  if (vinylPlayer && vinylAudio) {
+    const vinylToggle = () => {
+      if (vinylPlayer.classList.contains("playing")) {
+        vinylAudio.pause();
+        vinylAudio.currentTime = 0;
+        vinylPlayer.classList.remove("playing");
+      } else {
+        vinylAudio.play().catch(() => {});
+        vinylPlayer.classList.add("playing");
+      }
+    };
+    vinylPlayer.addEventListener("click", vinylToggle);
+    vinylPlayer.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); vinylToggle(); }
+    });
+  }
+</script>
+</body>
+</html>
