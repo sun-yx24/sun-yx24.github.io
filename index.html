@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>孙宇萱 · 个人主页</title>
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@600&display=swap" />
 <style>
   :root {
     --primary: #a4403a;        /* 安克拉红 */
@@ -28,6 +30,257 @@
   }
   .wrap { max-width: 880px; margin: 0 auto; padding: 48px 20px 64px; }
 
+  /* ===== 进入界面（偏白底 + 三色光晕 + 轻磨砂，参考图1排版 / 图2配色） ===== */
+  #intro {
+    position: fixed; inset: 0; z-index: 10002; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #fdfcfc 0%, #ffffff 48%, #fbfafa 100%);
+    transition: opacity .7s ease;
+  }
+  body.scroll-lock { overflow: hidden; }  /* 进入界面 / 导航页显示时锁定背景滚动 */
+  .intro-blob { position: absolute; top: 0; left: 0; border-radius: 50%; pointer-events: none; will-change: transform; }
+  .intro-blob.b1 { width: 490px; height: 490px; background: radial-gradient(circle at 50% 50%, rgba(129,2,31,.5) 0%, rgba(129,2,31,.22) 45%, rgba(129,2,31,0) 72%); }      /* 勃艮第红（大） */
+  .intro-blob.b2 { width: 450px; height: 450px; background: radial-gradient(circle at 50% 50%, rgba(230,212,200,.95) 0%, rgba(230,212,200,.4) 45%, rgba(230,212,200,0) 72%); } /* 沙色（中） */
+  .intro-blob.b3 { width: 360px; height: 360px; background: radial-gradient(circle at 50% 50%, rgba(64,76,76,.45) 0%, rgba(64,76,76,.2) 45%, rgba(64,76,76,0) 72%); }     /* 鸦青（小） */
+  .intro-frost {  /* 全屏轻磨砂层：让整个界面都有毛玻璃感 */
+    position: absolute; inset: 0; z-index: 1;
+    background: rgba(255,255,255,.16);
+    backdrop-filter: blur(7px) saturate(1.1);
+    -webkit-backdrop-filter: blur(7px) saturate(1.1);
+  }
+  .intro-stage {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 1px;
+  }
+  .intro-pinyin {
+    font-family: "Noto Serif SC", "华文宋体", "STSong", "宋体", "SimSun", serif;
+    font-weight: 600;
+    font-size: clamp(12px, 3vw, 25px);
+    letter-spacing: 6px; text-indent: 6px;
+    color: rgba(64,76,76,.48);
+    animation: intro-fade 3.0s ease .2s both;
+  }
+  @keyframes intro-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .intro-text {
+    min-height: 1.3em; white-space: nowrap;
+    font-family: "Noto Serif SC", "华文宋体", "STSong", "宋体", "SimSun", serif;
+    font-weight: 600;
+    font-size: clamp(46px, 9vw, 80px);
+    color: #404c4c; letter-spacing: 10px; text-indent: 10px;
+  }
+  .intro-caret {
+    display: inline-block; width: 4px; height: .9em; margin-left: 8px;
+    vertical-align: -0.08em; border-radius: 2px; background: #81021f;
+    animation: caret-blink .85s steps(1) infinite;
+  }
+  @keyframes caret-blink { 50% { opacity: 0; } }
+  .intro-btn {
+    margin-top: 45px;  /* 与打字区域拉开距离 */
+    opacity: 0; transform: translateY(16px); pointer-events: none;
+    transition: opacity 1.5s ease, transform 1.5s ease, box-shadow .3s ease;
+    border: none; border-radius: 999px; padding: 12px 40px; cursor: pointer;
+    font-family: inherit; font-size: 17px; letter-spacing: 3px; text-indent: 3px;
+    color: #fdf7f2; background: linear-gradient(135deg, #8f0a25 0%, #81021f 55%, #6a0119 100%);
+    box-shadow: 0 10px 24px rgba(129,2,31,.3);
+  }
+  .intro-btn.show { opacity: 1; transform: none; pointer-events: auto; }
+  .intro-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(129,2,31,.38); }
+  .intro-btn:active { transform: scale(.96); }
+  #intro.leave { opacity: 0; pointer-events: none; }
+
+  /* ===== 导航页 ===== */
+  #navPage {
+    position: fixed; inset: 0; z-index: 10000; display: none;
+    flex-direction: column; padding: 38px 56px 30px; overflow: auto;
+    background: linear-gradient(135deg, #fff4f4 0%, #fff4f4 35%, #ffffff 55%, #fdf6ef 75%, #fdf6ef 100%);
+  }
+  .nav-top {   /* 顶部圆角毛玻璃长条 */
+    margin: -14px -20px 0; padding: 13px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-radius: 18px;
+    background: rgba(255,255,255,.55);
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+    border: 1px solid rgba(255,255,255,.65);
+    box-shadow: 0 8px 28px rgba(64,76,76,.10);
+    position: relative; z-index: 3;
+  }
+  .nav-logo {
+    font-family: "Noto Serif SC", "华文宋体", "STSong", "宋体", "SimSun", serif;
+    font-weight: 700; font-size: 20px; letter-spacing: 3px; color: #2e3535;
+    user-select: none;
+  }
+  .nav-logo::before {  /* 同色实心爱心 */
+    content: "\2665"; margin-right: 9px; font-size: 17px;
+  }
+  .nav-name {
+    font-family: "Noto Serif SC", "华文宋体", "STSong", "宋体", "SimSun", serif;
+    font-weight: 700; font-size: 48px; letter-spacing: 3px; color: #404c4c;
+  }
+  #navExit {
+    border: 1px solid #141414; border-radius: 999px; padding: 9px 22px; cursor: pointer;
+    display: flex; align-items: center; gap: 7px;
+    font-family: inherit; font-size: 14px; letter-spacing: 2px;
+    color: #f5f2ee; background: #141414; transition: all .25s ease;
+  }
+  #navExit:hover {  /* 悬停：保持黑底，轻微上浮 + 变亮一点 */
+    background: #191919; border-color: #191919;
+    box-shadow: 0 6px 16px rgba(20,20,20,.28);
+    transform: translateY(-1px);
+  }
+  #navExit span { font-size: 16px; line-height: 1; }
+  .nav-footer {  /* 下栏：上边线与退出按钮同色，左右不顶边；内容居中版权 */
+    margin: auto -16px -30px; height: 35px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border-top: 1.0px solid #51515185;
+  }
+  .nav-copy {
+    font-family: "Noto Serif SC", "华文宋体", "STSong", "宋体", "SimSun", serif;
+    font-size: 12.5px; letter-spacing: 2px; color: #51515185;
+  }
+
+  /* ===== 音乐播放器（跨页显示：导航页/正文页/占位页；音源 = 网易云官方外链） ===== */
+  #navPlayer { position: fixed; left: 44px; bottom: 56px; z-index: 10003; width: 282px; display: none; }
+  .np-bar {   /* 白色胶囊条：z 高于信息框，信息框从它背后升起，视觉连为一体 */
+    position: relative; z-index: 2; display: flex; align-items: center; gap: 14px;
+    margin-left: 30px; padding: 13px 12px 13px 106px;
+    background: #fff; border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(64,76,76,.16);
+  }
+  .np-disc {  /* 黑胶唱片：嵌在白底上方、头部露出；光泽黑胶纹路 + 中心红标白孔 */
+    position: absolute; left: 20px; top: -16px; z-index: 3;
+    width: 70px; height: 70px; border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, #fff 0 2.5px, transparent 3px),
+      radial-gradient(circle at 50% 50%, #a4403a 0 10.5px, #8f3630 10.5px 12px, transparent 12.5px),
+      linear-gradient(135deg, rgba(255,255,255,.30) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0) 36%, rgba(255,255,255,.16) 44%, rgba(255,255,255,0) 56%, rgba(255,255,255,.10) 78%, rgba(255,255,255,0) 92%),
+      repeating-radial-gradient(circle at 50% 50%, #1c1f24 0 2px, #363b43 2px 3.5px),
+      radial-gradient(circle at 30% 25%, #3d434e 0%, #14171c 70%);
+    box-shadow: 0 5px 14px rgba(30,34,40,.38), inset 0 0 0 1px rgba(255,255,255,.10);
+  }
+  .np-disc.spinning { animation: np-spin 5s linear infinite; }
+  @keyframes np-spin { to { transform: rotate(360deg); } }
+  .np-btn {
+    border: none; background: transparent; cursor: pointer; padding: 4px;
+    color: #9aa0a6; display: flex; align-items: center;
+    transition: color .2s, transform .15s;
+  }
+  .np-btn:hover { color: #5a6464; }
+  .np-btn:active { transform: scale(.88); }
+  .np-btn svg { width: 20px; height: 20px; fill: currentColor; }
+  .np-btn svg path {  /* 描边圆角：尖角三角变圆润 */
+    stroke: currentColor; stroke-width: 2.5; stroke-linejoin: round;
+  }
+  .np-btn.np-play svg { width: 28px; height: 28px; }
+  .np-card {  /* 信息框：从播放器背后升起，与条相连；只显示歌名+歌手+进度条 */
+    display: grid; grid-template-rows: 0fr; overflow: hidden;
+    margin: 0 12px -8px 42px; border-radius: 12px;  /* 比胶囊条窄一圈：底角插进条后不外露 */
+    background: rgba(255,255,255,.30);
+    backdrop-filter: blur(22px) saturate(1.25); -webkit-backdrop-filter: blur(22px) saturate(1.25);
+    border: 1px solid rgba(255,255,255,.5); box-shadow: 0 8px 22px rgba(64,76,76,.14);
+    transition: grid-template-rows .4s ease;
+    position: relative; z-index: 1;
+  }
+  .np-card.open { grid-template-rows: 1fr; }
+  .np-card-in { overflow: hidden; min-height: 0; position: relative; }
+  .np-info { padding: 2px 18px 9px 94px; }  /* 上沿压低贴近歌名；内容从唱片右侧起 */
+  .np-title { font-size: 14px; font-weight: 700; color: #262626; letter-spacing: 1px; }
+  .np-artist { font-size: 11px; color: #51515185; margin-top: 0; letter-spacing: 1px; }
+  .np-seek {  /* 可拖动进度条：红色已播 + 浅灰未播 */
+    -webkit-appearance: none; appearance: none;
+    display: block; width: 100%; height: 3px; border-radius: 2px; margin: 5px 0 2px;
+    background: linear-gradient(to right, #a4403a 0%, #e8e2e0 0%);
+    outline: none; cursor: pointer;
+  }
+  .np-seek::-webkit-slider-thumb {  /* 无圆点：与线同色同高，视觉上就是一条线 */
+    -webkit-appearance: none; appearance: none;
+    width: 3px; height: 3px; border-radius: 0; background: #a4403a;
+  }
+  .np-seek::-moz-range-thumb {
+    width: 3px; height: 3px; border: none; border-radius: 0; background: #a4403a;
+  }
+  .np-seek::-moz-range-track { height: 3px; border-radius: 2px; background: transparent; }
+  .nav-main { flex: 1; display: flex; align-items: center; gap: 56px; margin-top: 8px; }
+  .nav-left { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; margin: -80px 0 0 50px; }
+  .nav-left .nav-name { margin-bottom: 20px; }  /* 名字远离头像一点 */
+  .nav-avatar {
+    width: 260px; height: 260px; object-fit: cover; border-radius: 50%;
+    box-shadow:
+      0 0 0 6px #ffffff,             /* 与头像之间的浅色间隙环 */
+      0 0 0 9px #404c4c,             /* 外圈勃艮第红细环 */
+      0 16px 36px rgba(64,76,76,.22);
+  }
+  .nav-sig {
+    font-family: "Noto Serif SC", "华文宋体", "STSong", "宋体", "SimSun", serif;
+    font-weight: 600; font-size: 17px; line-height: 2; letter-spacing: 1px; color: #404c4c;
+    text-align: center; margin-top: 25px;  /* 签名远离头像 */
+    width: 100%;  /* 与头像居中对齐 */
+  }
+  .nav-bubbles {
+    flex: 1; display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px 20px;
+    align-items: center; justify-items: center; max-width: 900px; margin: -40px auto 0;
+  }
+  .nav-bubble {
+    border: none; cursor: pointer; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    font-family: "Noto Serif SC", "华文宋体", "STSong", "宋体", "SimSun", serif;
+    transition: transform .35s ease, box-shadow .35s ease;
+    animation: nav-pop 1.6s ease both;
+    box-shadow: 0 12px 26px rgba(50,60,60,.34);  /* 加浓收紧：即使部分被邻气泡遮挡也清晰可见 */
+  }
+  .nav-bubble:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 18px 38px rgba(50,60,60,.46); }
+  .nav-bubble:active { transform: scale(.97); }
+  .bub-title { font-size: 38px; font-weight: 600; letter-spacing: 5px; text-indent: 5px; }
+  .bub-arrow { font-size: .72em; display: inline-block; transform: translateY(-3px); margin-left: 2px; }
+  .bub-en { font-size: 13px; letter-spacing: 3px; opacity: .72; text-transform: uppercase; }
+  @keyframes nav-pop { from { opacity: 0; transform: translateY(34px) scale(.92); } to { opacity: 1; } }
+  /* to 帧不声明 transform：动画结束后不再覆盖 :hover 的位移效果 */
+  .b-life, .b-about { position: relative; left: 90px; }  /* 生活+关于我整体右移，联系不动 */
+  .b-life {     /* 生活：勃艮第红大药丸（右缘贴列尾） */
+    grid-column: 1; grid-row: 1; justify-self: end;
+    width: 470px; height: 245px; border-radius: 200px;
+    background: linear-gradient(135deg, #8f0a25 0%, #81021f 60%, #6a0119 100%);
+    color: #fdf7f2; animation-delay: .2s;
+  }
+  .b-about {    /* 关于我：沙色圆形（左缘贴列头，与生活气泡紧贴；单独下移一点） */
+    grid-column: 2; grid-row: 1; justify-self: start; top: 22px;
+    width: 235px; height: 235px; border-radius: 50%;
+    background: linear-gradient(135deg, #eee0d4 0%, #e6d4c8 100%);
+    color: #404c4c; animation-delay: 1.2s;
+  }
+  .b-contact {  /* 联系：鸦青宽药丸 */
+    grid-column: 1 / -1; grid-row: 2; width: 470px; height: 185px; border-radius: 999px;
+    background: linear-gradient(135deg, #4a5757 0%, #404c4c 60%, #354040 100%);
+    color: #fdf7f2; animation-delay: 2.2s;
+  }
+
+  /* ===== 占位子页（关于我 / 联系） ===== */
+  #subPage {
+    position: fixed; inset: 0; z-index: 10001; display: none;
+    align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #fdfcfc 0%, #ffffff 55%, #fbfafa 100%);
+  }
+  .sub-card {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    padding: 62px 84px; border-radius: 30px; text-align: center;
+    background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 22px 50px rgba(64,76,76,.14);
+  }
+  .sub-title {
+    font-family: "Noto Serif SC", "华文宋体", "STSong", "宋体", "SimSun", serif;
+    font-weight: 600; font-size: 34px; letter-spacing: 6px; text-indent: 6px; color: #404c4c;
+  }
+  .sub-en { font-size: 12px; letter-spacing: 4px; color: rgba(64,76,76,.5); text-transform: uppercase; }
+  .sub-line { width: 54px; height: 3px; border-radius: 2px; background: #81021f; }
+  .sub-note { font-size: 15px; letter-spacing: 2px; color: #7a8484; }
+  #subBack {
+    margin-top: 12px; border: none; border-radius: 999px; padding: 10px 36px; cursor: pointer;
+    font-family: inherit; font-size: 15px; letter-spacing: 3px; text-indent: 3px;
+    color: #fdf7f2; background: linear-gradient(135deg, #8f0a25 0%, #81021f 60%, #6a0119 100%);
+    box-shadow: 0 10px 24px rgba(129,2,31,.3); transition: transform .25s ease, box-shadow .25s ease;
+  }
+  #subBack:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(129,2,31,.38); }
+
   /* ===== 头部 ===== */
   .hero {
     background: var(--card);
@@ -48,14 +301,9 @@
     flex-shrink: 0;
   }
   .hero h1 { font-size: 26px; letter-spacing: 1px; }
-  .hero h1 .tag {
-    display: inline-block; vertical-align: 4px; margin-left: 10px;
-    font-size: 12px; font-weight: normal; color: var(--primary);
-    background: var(--primary-soft); padding: 2px 10px; border-radius: 999px;
-  }
   .hero .intro { font-size: 13px; color: var(--text-2); margin: 6px 0 14px; }
   .contact { display: flex; flex-wrap: wrap; gap: 10px; }
-  .contact a, .contact span {
+  .contact a {
     font-size: 13px; text-decoration: none; color: var(--text);
     border: 1px solid var(--line); background: var(--bg);
     padding: 5px 12px; border-radius: 999px;
@@ -63,7 +311,6 @@
     transition: border-color .2s, color .2s;
   }
   .contact a:hover { border-color: var(--primary); color: var(--primary); }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
 
   /* ===== 信息区 ===== */
   .section-title {
@@ -72,43 +319,6 @@
     font-size: 17px; color: var(--primary-deep);
   }
   .section-title::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
-  /* ===== 黑胶唱片播放器 ===== */
-  .vinyl-player { position: relative; width: 150px; height: 150px; margin-left: auto; cursor: pointer; flex-shrink: 0; }
-  .vinyl-disc {
-    position: absolute; inset: 8px; border-radius: 50%;
-    background:
-      radial-gradient(circle, #d8c9b8 0 3.5%, #0e0e0e 4% 4.8%, transparent 5%),
-      repeating-radial-gradient(circle, #191919 0 3px, #101010 3px 6px);
-    box-shadow: inset 0 0 0 1px #000, 0 5px 16px rgba(0,0,0,.28);
-    display: flex; align-items: center; justify-content: center;
-    animation: vinyl-spin 4s linear infinite;
-    animation-play-state: paused;
-  }
-  .vinyl-label {
-    width: 34%; height: 34%; border-radius: 50%; border: 3px solid #0d0d0d;
-    background: radial-gradient(circle, var(--primary-soft) 0 52%, var(--primary) 53% 100%);
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 13px; user-select: none;
-  }
-  .vinyl-player.playing .vinyl-disc { animation-play-state: running; }
-  @keyframes vinyl-spin { to { transform: rotate(360deg); } }
-  .vinyl-arm {
-    position: absolute; top: -2px; right: 8px; width: 8px; height: 72px;
-    transform-origin: 50% 12px; transform: rotate(-30deg);
-    transition: transform .6s ease; z-index: 2;
-  }
-  .vinyl-arm::before {  /* 轴点 */
-    content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 16px; height: 16px; border-radius: 50%;
-    background: radial-gradient(circle at 40% 35%, #f4efe8, #b9b3aa 70%, #8f887e);
-    box-shadow: 0 1px 3px rgba(0,0,0,.3);
-  }
-  .vinyl-arm::after {  /* 唱臂杆 */
-    content: ""; position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
-    width: 5px; height: 54px; border-radius: 3px;
-    background: linear-gradient(#cfc9c0, #a8a29a);
-  }
-  .vinyl-player.playing .vinyl-arm { transform: rotate(16deg); }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
   .edu-card, .flip-row, .proj-card, .guestbook { grid-column: 1 / -1; }
   .card.edu-card, .card.guestbook { border-color: #FADADA; }
@@ -182,7 +392,6 @@
   .card li.kv span { flex: 1; }
   .edu-card > ul > li { margin-bottom: 6px; }
   .course-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; margin-top: 6px; }
-  .course-cols ul { margin: 0; padding: 0; }
   .course-cols li::before { width: 10px; height: 2px; border-radius: 1px; background: #F9C7C7; top: 11px; }
   .edu-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
   .edu-head strong { font-size: 15px; color: var(--text); }
@@ -223,7 +432,7 @@
   .fancy-deco { position: absolute; inset: 0; width: 100%; height: 100%; }
   .fancy-panel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
     width: 64%; height: 58%; background: #fff;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10); }
   .flip-front .fancy-word { font-size: 26px; font-weight: 700; color: #3f3f3f; letter-spacing: 6px; text-indent: 6px; }
   .fancy-line { width: 72%; height: 2px; background: #3f3f3f; }
@@ -232,19 +441,17 @@
   .learn-deco { position: absolute; inset: 0; width: 100%; height: 100%; }
   .learn-circle { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
     width: 78%; aspect-ratio: 1; border-radius: 50%; background: #fff;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     box-shadow: 0 2px 12px rgba(0,0,0,.06); }
-  .learn-word { display: block; }
   .flip-front .learn-word { font-size: 26px; font-weight: 700; color: #3f3f3f; letter-spacing: 6px; text-indent: 6px; }
-  .learn-line { display: block; width: 59%; height: 2px; background: #3f3f3f; }
+  .learn-line { width: 59%; height: 2px; background: #3f3f3f; }
   /* 协作卡片正面（浅绿横带样式） */
   .flip-front.coop { display: block; background: #EEFDD6; }
   .coop-band { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
     height: 48%; background: #fff;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0px; }
-  .coop-word { display: block; }
+    display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .flip-front .coop-word { font-size: 26px; font-weight: 700; color: #3f3f3f; letter-spacing: 6px; text-indent: 6px; }
-  .coop-line { display: block; width: 46%; height: 2px; background: #3f3f3f; }
+  .coop-line { width: 46%; height: 2px; background: #3f3f3f; }
   .flip-front .flip-en { font-family: "Times New Roman", "Times Roman", Times, serif; font-size: 13px; font-weight: 400; color: #3f3f3f; letter-spacing: 0; text-indent: 0; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip {
@@ -252,64 +459,69 @@
     background: #FADADA; border-radius: 999px; padding: 4px 12px;
   }
 
-  /* ===== 聊天区 ===== */
+  /* ===== 聊天区（毛玻璃浅灰配色） ===== */
   .chat {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: var(--radius); overflow: hidden;
-    box-shadow: 0 4px 20px rgba(124, 45, 42, 0.05);
+    background: rgba(255, 255, 255, .58);
+    -webkit-backdrop-filter: blur(22px) saturate(1.25);
+    backdrop-filter: blur(22px) saturate(1.25);
+    border: 1px solid rgba(255, 255, 255, .75);
+    border-radius: 18px; overflow: hidden;
+    box-shadow: 0 14px 40px rgba(53, 64, 64, .18), inset 0 1px 0 rgba(255,255,255,.6);
   }
   .chat-head {
     display: flex; align-items: center; gap: 10px;
-    padding: 14px 20px; border-bottom: 1px solid var(--line);
-    background: linear-gradient(90deg, var(--primary-soft), transparent);
+    padding: 14px 20px; border-bottom: 1px solid rgba(58, 58, 60, .1);
+    background: linear-gradient(90deg, rgba(255,255,255,.5), rgba(255,255,255,.15));
     cursor: grab; touch-action: none; user-select: none;
   }
   .chat-head:active { cursor: grabbing; }
   .chat-head .avatar-mini {
     display: block; width: 34px; height: 34px; border-radius: 50%;
     flex-shrink: 0;
-    background: radial-gradient(circle at 50% 40%, #b9544e 0%, var(--primary) 55%, var(--primary-deep) 100%);
-    box-shadow: 0 0 8px 2px rgba(164, 64, 58, .3);
+    background: linear-gradient(135deg, #8f0a25 0%, #81021f 60%, #6a0119 100%);
+    box-shadow: 0 2px 8px rgba(129, 2, 31, .3);
   }
   .chat-head .avatar-mini svg { width: 100%; height: 100%; display: block; }
-  .chat-head b { font-size: 14px; }
-  .chat-head .status { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+  .chat-head b { font-size: 14px; color: #3a3a3c; }
+  .chat-head .status { font-size: 12px; color: #8e8e93; display: flex; align-items: center; gap: 6px; }
   .status i { width: 8px; height: 8px; border-radius: 50%; background: #4caf7d; display: inline-block; }
-  .chat-body { height: 320px; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; background: var(--bg); }
+  .chat-body { height: 320px; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; background: transparent; }
   .msg { max-width: 78%; padding: 10px 14px; border-radius: 12px; font-size: 14px; animation: fadein .25s ease; white-space: pre-line; }
-  .msg.bot { align-self: flex-start; background: #fff; border: 1px solid var(--line); border-top-left-radius: 4px; }
-  .msg.user { align-self: flex-end; background: var(--primary); color: #fff; border-top-right-radius: 4px; }
+  .msg.bot { align-self: flex-start; background: rgba(255, 255, 255, .78); border: 1px solid rgba(58, 58, 60, .08); color: #3a3a3c; border-top-left-radius: 4px; }
+  .msg.user { align-self: flex-end; background: #e3e3e8; color: #3a3a3c; border-top-right-radius: 4px; }
   @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   .quick { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 18px 0; }
   .quick button {
-    font-size: 13px; color: var(--primary-deep); background: #FADADA;
-    border: 1px solid transparent; border-radius: 999px; padding: 5px 14px; cursor: pointer;
-    transition: border-color .2s;
+    font-size: 13px; color: #5a5a5e; background: rgba(255, 255, 255, .62);
+    border: 1px solid rgba(58, 58, 60, .14); border-radius: 999px; padding: 5px 14px; cursor: pointer;
+    transition: border-color .2s, background .2s;
   }
-  .quick button:hover { border-color: var(--primary); }
+  .quick button:hover { border-color: rgba(58, 58, 60, .35); background: rgba(255, 255, 255, .85); }
   .chat-input { display: flex; gap: 10px; padding: 14px 18px 18px; }
   .chat-input input {
-    flex: 1; border: 1px solid var(--line); border-radius: 10px;
-    padding: 10px 14px; font-size: 14px; outline: none; background: var(--bg);
-    transition: border-color .2s;
+    flex: 1; border: 1px solid rgba(58, 58, 60, .16); border-radius: 10px;
+    padding: 10px 14px; font-size: 14px; outline: none; background: rgba(255, 255, 255, .6);
+    color: #3a3a3c; transition: border-color .2s;
   }
-  .chat-input input:focus { border-color: var(--primary); }
+  .chat-input input::placeholder { color: #a6a6ab; }
+  .chat-input input:focus { border-color: rgba(58, 58, 60, .45); }
   .chat-input button {
-    background: var(--primary); color: #fff; border: none; border-radius: 10px;
+    background: #dcdce1; color: #3a3a3c; border: none;
+    border-radius: 10px;
     padding: 10px 22px; font-size: 14px; cursor: pointer; transition: background .2s;
   }
-  .chat-input button:hover { background: var(--primary-deep); }
+  .chat-input button:hover { background: #cfcfd6; }
 
   /* ===== 悬浮分身 ===== */
   #spriteBall {
     position: fixed; z-index: 999;
     width: 58px; height: 58px; border-radius: 50%;
     cursor: grab; touch-action: none; user-select: none;
-    background: radial-gradient(circle at 50% 40%, #b9544e 0%, var(--primary) 55%, var(--primary-deep) 100%);
+    background: linear-gradient(135deg, #8f0a25 0%, #81021f 60%, #6a0119 100%);
     box-shadow:
-      0 0 12px 4px rgba(164, 64, 58, .35),
-      0 0 32px 10px rgba(164, 64, 58, .16),
-      0 6px 18px rgba(124, 45, 42, .25);
+      0 0 12px 4px rgba(129, 2, 31, .35),
+      0 0 32px 10px rgba(129, 2, 31, .16),
+      0 6px 18px rgba(53, 64, 64, .25);
     transition: transform .2s;
   }
   #spriteBall:hover { transform: scale(1.08); }
@@ -327,19 +539,22 @@
   .chat-head { position: relative; }
   .chat-close {
     position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-    border: none; background: transparent; color: var(--text-2);
+    border: none; background: transparent; color: #8e8e93;
     font-size: 22px; line-height: 1; cursor: pointer;
   }
-  .chat-close:hover { color: var(--primary); }
+  .chat-close:hover { color: #3a3a3c; }
 
   /* ===== 悬浮球气泡提示 ===== */
   #spriteTip {
     position: fixed; z-index: 998;
     max-width: 230px; padding: 10px 14px;
-    background: #fff; border: 1px solid var(--line);
+    background: rgba(255, 255, 255, .78);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, .7);
     border-radius: 12px;
-    font-size: 13px; color: var(--text);
-    box-shadow: 0 4px 16px rgba(124, 45, 42, .12);
+    font-size: 13px; color: #3a3a3c;
+    box-shadow: 0 4px 16px rgba(53, 64, 64, .15);
     opacity: 0; pointer-events: none;
   }
   #spriteTip.show { animation: tipLife 3.8s ease forwards; }
@@ -363,16 +578,124 @@
     .hero { flex-direction: column; text-align: center; padding: 28px 20px; }
     .contact { justify-content: center; }
     .grid { grid-template-columns: 1fr; }
-    .vinyl-player { margin: 4px auto 0; }
     .album-card { grid-column: auto; grid-row: auto; aspect-ratio: 1; }
     .flip-row { grid-template-columns: 1fr; }
     .flip-card { aspect-ratio: auto; min-height: 150px; }
     .chat-body { height: 280px; }
     .msg { max-width: 88%; }
+    .intro-stage { gap: 6px; }
+    .intro-pinyin { font-size: 11px; letter-spacing: 4px; text-indent: 4px; }
+    .intro-text { font-size: clamp(28px, 9vw, 44px); letter-spacing: 5px; text-indent: 5px; }
+    .intro-blob.b1 { width: 320px; height: 320px; }
+    .intro-blob.b2 { width: 280px; height: 280px; }
+    .intro-blob.b3 { width: 220px; height: 220px; }
+    #navPage { padding: 22px 20px; }
+    .nav-name { font-size: 30px; }
+    .nav-top { margin: -10px -12px 0; padding: 10px 16px; }
+    .nav-logo { font-size: 16px; letter-spacing: 2px; }
+    .nav-main { flex-direction: column; gap: 26px; text-align: center; }
+    .nav-left { width: auto; align-items: center; margin: 0; }
+    .nav-avatar { width: 170px; height: 170px; }
+    .nav-bubbles { grid-template-columns: 1fr; gap: 14px; width: 100%; margin: 0 auto; }
+    .b-life, .b-about { left: 0; }
+    .b-life { justify-self: center; width: min(380px, 90vw); height: 225px; }
+    .b-about { justify-self: center; top: 0; width: min(255px, 76vw); height: 235px; }
+    .nav-footer { margin: 18px -8px -22px; height: 32px; }
+    .nav-copy { font-size: 11px; letter-spacing: 1.5px; }
+    #navPlayer { left: 14px; bottom: 52px; width: min(260px, calc(100vw - 28px)); }
+    .np-bar { margin-left: 22px; padding: 13px 14px 13px 80px; gap: 10px; }
+    .np-disc { width: 58px; height: 58px; left: 10px; top: -10px; }
+    .np-card { margin: 0 8px -8px 30px; }
+    .np-info { padding: 11px 14px 10px 86px; }
+    .b-contact { width: min(400px, 90vw); height: 150px; }
+    .bub-title { font-size: 30px; }
+    .sub-card { padding: 44px 30px; width: min(86vw, 380px); }
   }
 </style>
 </head>
-<body>
+<body class="scroll-lock">
+<!-- 进入界面 -->
+<div id="intro">
+  <div class="intro-blob b1"></div>
+  <div class="intro-blob b2"></div>
+  <div class="intro-blob b3"></div>
+  <div class="intro-frost"></div>
+  <div class="intro-stage">
+    <div class="intro-pinyin">HUANYINGLAIDAOWODEXIAOZHAN</div>
+    <div class="intro-text"><span id="introTyped"></span><span class="intro-caret" id="introCaret"></span></div>
+    <button id="introBtn" class="intro-btn" type="button" aria-label="进入主页">Welcome</button>
+  </div>
+</div>
+
+<!-- 导航页 -->
+<div id="navPage">
+  <div class="nav-top">
+    <div class="nav-logo">SUNYUXUAN</div>
+    <button id="navExit" type="button" aria-label="退出返回进入界面">退出 <span>×</span></button>
+  </div>
+  <div class="nav-main">
+    <div class="nav-left">
+      <div class="nav-name">孙宇萱</div>
+      <img class="nav-avatar" src="Image.jpg" alt="孙宇萱的头像" />
+      <p class="nav-sig">愿你的所有努力和期许都有结果，<br />愿你的明天如你所愿。</p>
+    </div>
+    <div class="nav-bubbles">
+      <button class="nav-bubble b-life" type="button" data-target="life">
+        <span class="bub-title">生活<span class="bub-arrow">↗</span></span>
+        <span class="bub-en">Life</span>
+      </button>
+      <button class="nav-bubble b-about" type="button" data-target="about" data-title="关于我" data-en="About Me">
+        <span class="bub-title">关于我<span class="bub-arrow">↗</span></span>
+        <span class="bub-en">About Me</span>
+      </button>
+      <button class="nav-bubble b-contact" type="button" data-target="contact" data-title="联系" data-en="Contact">
+        <span class="bub-title">联系<span class="bub-arrow">↗</span></span>
+        <span class="bub-en">Contact</span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-footer">
+    <span class="nav-copy">© 2026 SUNYUXUAN · 记录生活，慢慢相遇</span>
+  </div>
+</div>
+
+<!-- 音乐播放器：跨页显示（导航页/正文/占位页），进入界面时隐藏 -->
+<div id="navPlayer">
+  <div class="np-card" id="npCard">
+    <div class="np-card-in">
+      <div class="np-info">
+        <div class="np-title" id="npTitle">异想天开</div>
+        <div class="np-artist" id="npArtist">肖战</div>
+        <input type="range" class="np-seek" id="npSeek" min="0" max="100" value="0" step="0.1" aria-label="播放进度" />
+      </div>
+    </div>
+  </div>
+  <div class="np-bar">
+    <div class="np-disc" id="npDisc"></div>
+    <button class="np-btn" id="npPrev" type="button" aria-label="上一首">
+      <svg viewBox="0 0 24 24"><path d="M11 12l8-6v12l-8-6zm-8 0l8-6v12l-8-6z"/></svg>
+    </button>
+    <button class="np-btn np-play" id="npPlay" type="button" aria-label="播放 / 暂停">
+      <svg id="npPlayIcon" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5z"/></svg>
+    </button>
+    <button class="np-btn" id="npNext" type="button" aria-label="下一首">
+      <svg viewBox="0 0 24 24"><path d="M13 12L5 6v12l8-6zm8 0l-8-6v12l8-6z"/></svg>
+    </button>
+  </div>
+  <audio id="npAudio" preload="none"></audio>
+</div>
+
+<!-- 关于我 / 联系 占位页 -->
+<div id="subPage">
+  <div class="sub-card">
+    <div class="sub-title" id="subTitle">关于我</div>
+    <div class="sub-en" id="subEn">About Me</div>
+    <div class="sub-line"></div>
+    <p class="sub-note">内容正在筹备中，敬请期待</p>
+    <button id="subBack" type="button">返回</button>
+  </div>
+</div>
+
 <div class="wrap">
 
   <!-- 头部：头像 + 基本信息 -->
@@ -386,11 +709,6 @@
         <a href="mailto:3874236946@qq.com">邮箱：3874236946@qq.com</a>
       </div>
     </div>
-    <div class="vinyl-player" id="vinylPlayer" role="button" tabindex="0" aria-label="黑胶唱片播放器：单击播放或停止">
-      <div class="vinyl-disc"><span class="vinyl-label">♪</span></div>
-      <div class="vinyl-arm"></div>
-    </div>
-    <audio id="vinylAudio" src="music.mp3" preload="none"></audio>
   </header>
 
   <!-- 个人信息展示区 -->
@@ -404,7 +722,7 @@
     </div>
     <div class="card doing-card">
       <h3>现在在做</h3>
-      <ul class="plain-list">
+      <ul>
         <li>完成大学课业，努力学习</li>
         <li>尝试各种活动丰富自己的经历</li>
         <li>学着缓解对未来的压力</li>
@@ -585,8 +903,6 @@
     </div>
   </div>
 
-  <!-- 数字分身：悬浮球 + 悬浮聊天窗（在页面底部） -->
-
   <footer>© 2026 孙宇萱 · 用一点点的技术，认真生活</footer>
 </div>
 
@@ -643,9 +959,12 @@
   const body = document.getElementById("chatBody");
   const input = document.getElementById("input");
 
+  // 部署后填腾讯云函数地址（函数 URL）即接入 AI；留空则使用下面的内置关键词回复兜底
+  const LLM_URL = "https://1503832551-ipqh8mzoi8.ap-shanghai.tencentscf.com";
+
   const KB = [
     { keys: ["做什么", "在干", "最近", "忙"], answer:
-      "我现在主要在完成大学课业，同时尝试参加各类活动丰富经历。最近的小目标：搭好自己的个人主页，也在学着缓解对未来的压力～" },
+      "我现在主要在完成大学课业，同时尝试参加各类活动丰富经历。" },
     { keys: ["擅长", "会什么", "技能", "方向", "关心"], answer:
       "我擅长把复杂的任务拆解成条理清楚的小步骤，也喜欢学习新知识。可以点点我的关键词卡片，相信你能在那找到更详细的答案哦。" },
     { keys: ["联系", "电话", "邮箱", "微信", "找到"], answer:
@@ -664,11 +983,24 @@
     div.textContent = text;
     body.appendChild(div);
     body.scrollTop = body.scrollHeight;
+    return div;
+  }
+
+  /* 打字机：把 answer 逐字打进 div */
+  function typeMsg(div, answer) {
+    let i = 0;
+    div.textContent = "";
+    const timer = setInterval(() => {
+      div.textContent = answer.slice(0, ++i);
+      body.scrollTop = body.scrollHeight;
+      if (i >= answer.length) clearInterval(timer);
+    }, 28);
   }
 
   const GREETINGS = ["你好", "您好", "哈喽", "哈罗", "嗨", "hi", "hello", "在吗", "在么", "早", "午安", "晚安"];
 
-  function reply(q) {
+  /* 内置关键词回复（未接入 AI 或 AI 失效时的兜底） */
+  function replyLocal(q) {
     const t = q.trim().toLowerCase();
     /* 纯打招呼：整句就是一句问候，不含其他内容 */
     const isGreeting = GREETINGS.some(g => t === g || t === g + "！" || t === g + "!" || t === g + "～" || t === g + "~" || t === g + "呀" || t === g + "啊");
@@ -676,10 +1008,40 @@
     const answer = isGreeting ? "你好呀，有什么想跟我说的吗？"
       : hit ? hit.answer
       : "嗯，这个问题我还没有合适的答案，相信等我多升级一些就能和你畅谈了！试试其他的问题吧~";
-    addMsg("正在输入…", "bot");
-    setTimeout(() => {
-      body.lastChild.textContent = answer;
-    }, 500);
+    const bubble = addMsg("正在输入…", "bot");
+    setTimeout(() => typeMsg(bubble, answer), 400);
+  }
+
+  /* AI 回复：POST 对话历史到云函数，云函数持有 key 与人设，返回 { reply } */
+  const aiHistory = [];   // 对话历史（云函数侧只保留最近 12 条）
+  let aiBusy = false;     // AI 回复中，防止连发
+
+  async function replyAI(q) {
+    if (aiBusy) { addMsg("等我先把上一句说完～", "bot"); return; }
+    aiBusy = true;
+    aiHistory.push({ role: "user", content: q });
+    const bubble = addMsg("正在输入…", "bot");
+    try {
+      const res = await fetch(LLM_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: aiHistory.slice(-12) }),
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      const text = (data.reply || "").trim() || "（我走神了，再说一次好不好）";
+      aiHistory.push({ role: "assistant", content: text });
+      typeMsg(bubble, text);
+    } catch (e) {
+      aiHistory.pop();   // 失败的这轮不进历史
+      bubble.textContent = "呜，我这边网络出了点问题，请再问一次吧～";
+    }
+    aiBusy = false;
+  }
+
+  function reply(q) {
+    if (LLM_URL) { replyAI(q); return; }
+    replyLocal(q);
   }
 
   function ask(q) { addMsg(q, "user"); reply(q); }
@@ -697,10 +1059,10 @@
   const ball = document.getElementById("spriteBall");
   const panel = document.getElementById("spriteChat");
 
-  // 初始位置：右下角
+  // 初始位置：右下角（右移，悬在导航页下栏上方）
   function placeBallDefault() {
-    ball.style.left = (window.innerWidth - ball.offsetWidth - 26) + "px";
-    ball.style.top = (window.innerHeight - ball.offsetHeight - 26) + "px";
+    ball.style.left = (window.innerWidth - ball.offsetWidth - 40) + "px";
+    ball.style.top = (window.innerHeight - ball.offsetHeight - 55) + "px";
   }
   placeBallDefault();
 
@@ -743,7 +1105,7 @@
 
   /* ===== 眼睛跟随鼠标 ===== */
   const eyesG = document.querySelector("#spriteBall .eyes-g");
-  const LOOK_RANGE = 100;  // 触发距离（px），鼠标进入球周围该范围时眼睛开始看它
+  const LOOK_RANGE = 150;  // 触发距离（px），鼠标进入球周围该范围时眼睛开始看它
   const LOOK_MAX = 8;      // 眼睛最大偏移量（SVG 单位）
 
   window.addEventListener("mousemove", (e) => {
@@ -767,7 +1129,7 @@
   const TIPS = [
     "Hello，我是宇萱的数字分身～",
     "点这里可以和我聊天哦~",
-    "想跟我聊聊吗？戳戳我试试~",
+    "想跟我聊天吗？戳戳我试试~",
   ];
   let tipIdx = 0;
 
@@ -791,8 +1153,95 @@
     tip.style.top = y + "px";
   }
 
-  setTimeout(showTip, 3000);      // 页面打开后先来第一条
-  setInterval(showTip, 30000);    // 之后每 30 秒一条，循环播放
+  // 第一条提示等进入导航页 3 秒后才弹（否则会在进入界面阶段就播完，看起来时间很短）
+  let tipsStarted = false;
+  function startTips() {
+    if (tipsStarted) return;
+    tipsStarted = true;
+    setTimeout(() => {
+      showTip();
+      setInterval(showTip, 30000);  // 之后每 30 秒一条，循环播放
+    }, 5000);
+  }
+
+  /* ===== 音乐播放器：外观自绘，音源 = 网易云外链直链（可拖进度、自动连播） ===== */
+  const NAV_SONGS = [
+    // 换歌：网易云音乐 APP 打开歌曲 → 分享 → 复制链接，链接里 id= 后的数字填到这里，歌名歌手手写
+    { id: "3440528000", title: "异想天开", artist: "肖战" },
+    { id: "1456443773", title: "隔岸", artist: "姚六一" },
+  ];
+  let npIdx = 0, npPlaying = false, npSeeking = false;
+  const navPlayer = document.getElementById("navPlayer");
+  const npCard = document.getElementById("npCard");
+  const npAudio = document.getElementById("npAudio");
+  const npSeek = document.getElementById("npSeek");
+  const npTitle = document.getElementById("npTitle");
+  const npArtist = document.getElementById("npArtist");
+  const npDisc = document.getElementById("npDisc");
+  const npPlayIcon = document.getElementById("npPlayIcon");
+  const PLAY_SVG = '<path d="M8 5.5v13l11-6.5-11-6.5z"/>';
+  const PAUSE_SVG = '<path d="M6.5 5h3.5v14H6.5zM14 5h3.5v14H14z"/>';
+
+  function npSeekFill() {  // 进度条红/灰填充比例
+    const v = npSeek.value || 0;
+    npSeek.style.background = `linear-gradient(to right, #a4403a ${v}%, #e8e2e0 ${v}%)`;
+  }
+  function npLoad(i, autoplay) {
+    npIdx = (i + NAV_SONGS.length) % NAV_SONGS.length;
+    const s = NAV_SONGS[npIdx];
+    npTitle.textContent = s.title;
+    npArtist.textContent = s.artist;
+    npSeek.value = 0; npSeekFill();
+    npAudio.src = `https://music.163.com/song/media/outer/url?id=${s.id}.mp3`;
+    if (autoplay) npAudio.play().catch(() => {});
+  }
+  function npSetPlaying(on) {
+    npPlaying = on;
+    npDisc.classList.toggle("spinning", on);
+    npPlayIcon.innerHTML = on ? PAUSE_SVG : PLAY_SVG;
+  }
+  function npStop() {  // 暂停并复位（退出到进入界面时用）
+    npAudio.pause();
+    npSetPlaying(false);
+    npCard.classList.remove("open");
+  }
+  document.getElementById("npPlay").addEventListener("click", () => {
+    if (npPlaying) {
+      npAudio.pause();
+      npSetPlaying(false);
+    } else {
+      if (!npAudio.src) npLoad(npIdx, false);
+      npAudio.play().catch(() => {});
+      npSetPlaying(true);
+    }
+  });
+  document.getElementById("npPrev").addEventListener("click", () => {
+    npLoad(npIdx - 1, true);
+    if (!npPlaying) npSetPlaying(true);
+  });
+  document.getElementById("npNext").addEventListener("click", () => {
+    npLoad(npIdx + 1, true);
+    if (!npPlaying) npSetPlaying(true);
+  });
+  // 悬停在播放器任意处（含信息框/进度条）→ 升起；挪开整个播放器 → 收回
+  navPlayer.addEventListener("mouseenter", () => npCard.classList.add("open"));
+  navPlayer.addEventListener("mouseleave", () => npCard.classList.remove("open"));
+  // 进度：实时更新；拖动时暂停同步，松手跳转
+  npAudio.addEventListener("timeupdate", () => {
+    if (npSeeking || !isFinite(npAudio.duration) || !npAudio.duration) return;
+    const p = (npAudio.currentTime / npAudio.duration) * 100;
+    npSeek.value = p; npSeekFill();
+  });
+  npSeek.addEventListener("input", () => { npSeeking = true; npSeekFill(); });
+  npSeek.addEventListener("change", () => {
+    if (isFinite(npAudio.duration) && npAudio.duration) {
+      npAudio.currentTime = (npSeek.value / 100) * npAudio.duration;
+    }
+    npSeeking = false;
+  });
+  npAudio.addEventListener("ended", () => {  // 一首播完自动接下一首
+    npLoad(npIdx + 1, true);
+  });
 
   // 打开聊天窗：悬浮球隐藏，聊天窗出现在球原来的位置附近
   function openChat() {
@@ -998,24 +1447,162 @@
       if (e.key === "ArrowRight") lbShow(albumIdx + 1);
     });
   }
-  /* ===== 黑胶唱片播放器 ===== */
-  const vinylPlayer = document.getElementById("vinylPlayer");
-  const vinylAudio = document.getElementById("vinylAudio");
-  if (vinylPlayer && vinylAudio) {
-    const vinylToggle = () => {
-      if (vinylPlayer.classList.contains("playing")) {
-        vinylAudio.pause();
-        vinylAudio.currentTime = 0;
-        vinylPlayer.classList.remove("playing");
+  /* ===== 进入界面：手写体打字 + 欢迎按钮 ===== */
+  const intro = document.getElementById("intro");
+  const introTyped = document.getElementById("introTyped");
+  const introCaret = document.getElementById("introCaret");
+  const introBtn = document.getElementById("introBtn");
+  if (intro && introTyped && introCaret && introBtn) {
+    const INTRO_TEXT = "欢迎来到我的小站";
+    let ti = 0;
+    const typeNext = () => {
+      if (ti < INTRO_TEXT.length) {
+        introTyped.textContent += INTRO_TEXT[ti++];
+        setTimeout(typeNext, 240 + Math.random() * 200);  // 打字节奏略带随机，更像真人敲键盘
       } else {
-        vinylAudio.play().catch(() => {});
-        vinylPlayer.classList.add("playing");
+        setTimeout(() => {  // 打完后光标消失，欢迎键浮现
+          introCaret.style.display = "none";
+          introBtn.classList.add("show");
+        }, 450);
       }
     };
-    vinylPlayer.addEventListener("click", vinylToggle);
-    vinylPlayer.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); vinylToggle(); }
+    // 等网页字体加载完再开始打字（最多等 1.5 秒，防止网络慢时卡住）
+    let typingStarted = false;
+    const startTyping = () => {
+      if (typingStarted) return;
+      typingStarted = true;
+      setTimeout(typeNext, 400);
+    };
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(startTyping);
+      setTimeout(startTyping, 1500);
+    } else {
+      startTyping();
+    }
+
+    // 数字分身层级切换：导航页显示时提升到其上方，离开时恢复默认
+    const spriteLift = (on) => {
+      const levels = { spriteBall: 10003, spriteChat: 10004, spriteTip: 10005 };
+      Object.keys(levels).forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.style.zIndex = on ? levels[id] : "";
+      });
+    };
+
+    // 拼音淡入只播一次：播完后定格，退出导航返回时不再重播
+    const introPinyin = document.querySelector(".intro-pinyin");
+    if (introPinyin) {
+      introPinyin.addEventListener("animationend", () => { introPinyin.style.animation = "none"; }, { once: true });
+    }
+
+    introBtn.addEventListener("click", () => {
+      navPage.style.display = "flex";  // 导航页立刻垫在下面，避免淡出时露出正文
+      intro.classList.add("leave");    // 进入界面在最上层淡出
+      stopBlobs();                     // 停掉圆球动画
+      spriteLift(true);                // 数字分身在导航页可见
+      navPlayer.style.display = "block";  // 播放器从导航页起跨页显示
+      startTips();                     // 进入导航页 5 秒后开始弹第一条提示
+      setTimeout(() => { intro.style.display = "none"; }, 750);
     });
+
+    /* 背景光晕圆球：初始分区放置且互不重合，缓慢飘动，碰到页面边缘或彼此都弹开 */
+    const blobEls = Array.from(document.querySelectorAll(".intro-blob"));
+    const placed = [];
+    const blobs = blobEls.map((el, i) => {
+      const size = el.offsetWidth;
+      const W = window.innerWidth, H = window.innerHeight;
+      const zoneW = W / blobEls.length;  // 每个球占一条横向区域，保证开局分散
+      let x = zoneW * i, y = 0;
+      for (let t = 0; t < 40; t++) {  // 随机尝试多次，避开已放置的球
+        x = zoneW * i + Math.random() * Math.max(1, zoneW - size);
+        y = Math.random() * Math.max(1, H - size);
+        if (placed.every(p => Math.hypot(p.x - x, p.y - y) > (p.size + size) / 2)) break;
+      }
+      placed.push({ x, y, size });
+      return {
+        el, size, x, y,
+        vx: (0.05 + Math.random() * 0.12) * (Math.random() < 0.5 ? -1 : 1),  // 每球速度方向各异，整体放慢
+        vy: (0.05 + Math.random() * 0.12) * (Math.random() < 0.5 ? -1 : 1),
+      };
+    });
+    const stepBlobs = () => {
+      const W = window.innerWidth, H = window.innerHeight;
+      for (const b of blobs) {
+        b.x += b.vx; b.y += b.vy;
+        if (b.x <= 0) { b.x = 0; b.vx = Math.abs(b.vx); }                       // 左边缘弹回
+        if (b.x >= W - b.size) { b.x = W - b.size; b.vx = -Math.abs(b.vx); }    // 右边缘弹回
+        if (b.y <= 0) { b.y = 0; b.vy = Math.abs(b.vy); }                       // 上边缘弹回
+        if (b.y >= H - b.size) { b.y = H - b.size; b.vy = -Math.abs(b.vy); }    // 下边缘弹回
+      }
+      // 球与球碰撞：光晕边缘相触即相互弹开（等质量弹性碰撞）
+      for (let i = 0; i < blobs.length; i++) {
+        for (let j = i + 1; j < blobs.length; j++) {
+          const a = blobs[i], b = blobs[j];
+          const dx = (b.x + b.size / 2) - (a.x + a.size / 2);
+          const dy = (b.y + b.size / 2) - (a.y + a.size / 2);
+          const dist = Math.hypot(dx, dy) || 0.01;
+          const minDist = (a.size + b.size) / 2 * 0.9;
+          if (dist < minDist) {
+            const nx = dx / dist, ny = dy / dist;
+            const push = (minDist - dist) / 2;  // 沿连线推开，消除重叠
+            a.x -= nx * push; a.y -= ny * push;
+            b.x += nx * push; b.y += ny * push;
+            const av = a.vx * nx + a.vy * ny;   // 交换法向速度分量
+            const bv = b.vx * nx + b.vy * ny;
+            if (av - bv > 0) {                  // 仅在相互靠近时反弹
+              a.vx += (bv - av) * nx; a.vy += (bv - av) * ny;
+              b.vx += (av - bv) * nx; b.vy += (av - bv) * ny;
+            }
+          }
+        }
+      }
+      for (const b of blobs) b.el.style.transform = `translate(${b.x}px, ${b.y}px)`;
+      blobRaf = requestAnimationFrame(stepBlobs);
+    };
+
+    /* ===== 导航页流转 ===== */
+    const navPage = document.getElementById("navPage");
+    const navExit = document.getElementById("navExit");
+    const subPage = document.getElementById("subPage");
+    const subTitle = document.getElementById("subTitle");
+    const subEn = document.getElementById("subEn");
+    const subBack = document.getElementById("subBack");
+    // 退出 → 回到进入界面，圆球动画重启
+    navExit.addEventListener("click", () => {
+      navPage.style.display = "none";
+      subPage.style.display = "none";
+      intro.style.display = "flex";
+      intro.classList.remove("leave");
+      startBlobs();
+      spriteLift(false);  // 数字分身回到默认层级（被进入界面覆盖）
+      npStop();           // 停掉导航页音乐并复位播放器按钮
+      navPlayer.style.display = "none";  // 播放器回到隐藏（进入界面不显示）
+      // 拼音与打字内容保持原样，只让 Welcome 按键重新浮现
+      introBtn.classList.remove("show");
+      void introBtn.offsetWidth;  // 强制回流，确保过渡重新触发
+      introBtn.classList.add("show");
+    });
+    // 气泡点击：生活 → 正文主页；关于我 / 联系 → 占位页
+    document.querySelectorAll(".nav-bubble").forEach((b) => {
+      b.addEventListener("click", () => {
+        if (b.dataset.target === "life") {
+          navPage.style.display = "none";
+          spriteLift(false);  // 恢复默认层级，正文中原本可见
+          document.body.classList.remove("scroll-lock");  // 解锁滚动，进入正文
+        } else {
+          subTitle.textContent = b.dataset.title || "关于我";
+          subEn.textContent = b.dataset.en || "";
+          subPage.style.display = "flex";
+        }
+      });
+    });
+    // 占位页返回 → 回到导航页
+    subBack.addEventListener("click", () => { subPage.style.display = "none"; });
+
+    let blobRaf = null;
+    const startBlobs = () => { if (!blobRaf) blobRaf = requestAnimationFrame(stepBlobs); };
+    const stopBlobs = () => { if (blobRaf) { cancelAnimationFrame(blobRaf); blobRaf = null; } };
+    startBlobs();
   }
 </script>
 </body>
